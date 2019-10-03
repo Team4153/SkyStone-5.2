@@ -23,5 +23,7 @@ public class LoadingZoneAuto extends Hardware {
         waitForStart();
        //run stuff
         left(1.0);
+        sleep(500);
+        left(0);
     }
 }
