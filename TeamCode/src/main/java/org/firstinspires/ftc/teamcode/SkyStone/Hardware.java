@@ -9,7 +9,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public abstract class Hardware extends LinearOpMode
 {
     /* Public OpMode members. */
-    public DcMotor lf, lb, rf, rb;
+    public DcMotor lf, lb;
+    //rf, rb;
 
 
 
@@ -26,13 +27,13 @@ public abstract class Hardware extends LinearOpMode
     }//*/
 
     /* Initialize standard Hardware interfaces */
-    @Override
-    public void runOpMode() {
+    //@Override
+    //public void init() {
         // Save reference to Hardware map
-        lf  = hardwareMap.get(DcMotor.class, "lf");
-        lb = hardwareMap.get(DcMotor.class, "lb");
-        rf  = hardwareMap.get(DcMotor.class, "rf");
-        rb = hardwareMap.get(DcMotor.class, "rb");
-    }
+        //lf  = hardwareMap.get(DcMotor.class, "lf");
+        //lb = hardwareMap.get(DcMotor.class, "lb");
+        /*rf  = hardwareMap.get(DcMotor.class, "rf");
+        rb = hardwareMap.get(DcMotor.class, "rb");*/
+    //}
  }
 
