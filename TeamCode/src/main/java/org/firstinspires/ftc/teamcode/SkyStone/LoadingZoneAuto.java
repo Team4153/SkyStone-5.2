@@ -19,7 +19,7 @@ public class LoadingZoneAuto extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         //init stuff
-        //HOWDY PARTNER
+
 
         waitForStart();
        //run stuff
