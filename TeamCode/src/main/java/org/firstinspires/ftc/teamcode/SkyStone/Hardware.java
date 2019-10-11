@@ -2,13 +2,15 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.Servo;
+//import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 public class Hardware
 {
-    public DcMotor  leftDrive   = null;
+    public DcMotor  left   = null;
+    public DcMotor right = null;
 
 
     HardwareMap hwMap           =  null;
@@ -21,12 +23,22 @@ public class Hardware
     public void init(HardwareMap ahwMap) {
         hwMap = ahwMap;
 
-        leftDrive  = hwMap.get(DcMotor.class, "left_drive");
-        leftDrive.setDirection(DcMotor.Direction.FORWARD); // Set to REVERSE if using AndyMark motors
-        leftDrive.setPower(0);
+        left  = hwMap.get(DcMotor.class, "left_drive");
+        left.setDirection(DcMotor.Direction.REVERSE);
+        left.setPower(0);
+        right  = hwMap.get(DcMotor.class, "right_drive");
+        right.setDirection(DcMotor.Direction.FORWARD);
+        right.setPower(0);
 
-        leftDrive.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        left.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+        right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
+    }
 
+    public void leftPower(double power){
+        left.setPower(power);
+    }
+    public void rightPower(double power){
+        right.setPower(power);
     }
  }
 
