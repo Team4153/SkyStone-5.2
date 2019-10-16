@@ -11,7 +11,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="Loading zone auto")
 //@Disabled
 public class LoadingZoneAuto extends LinearOpMode {
-    Hardware         robot   = new Hardware();   // Use a Pushbot's hardware
+    private Hardware         robot   = new Hardware();   // Use a Pushbot's hardware
 
     //make new stuff
 
@@ -22,16 +22,11 @@ public class LoadingZoneAuto extends LinearOpMode {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
         //init stuff
-
+        robot.left.setPower(0);
+        robot.right.setPower(0);
 
         waitForStart();
        //run stuff
-        robot.leftPower(1.0);
-        sleep(500);
-        robot.leftPower(0);
 
-        robot.rightPower(1.0);
-        sleep(500);
-        robot.rightPower(0);
     }
 }

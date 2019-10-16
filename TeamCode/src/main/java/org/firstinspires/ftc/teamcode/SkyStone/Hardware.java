@@ -13,8 +13,8 @@ public class Hardware
     public DcMotor right = null;
 
 
-    HardwareMap hwMap           =  null;
-    private ElapsedTime period  = new ElapsedTime();
+    private HardwareMap hwMap           =  null;
+    //private ElapsedTime period  = new ElapsedTime();
 
     public Hardware(){
 
@@ -34,11 +34,6 @@ public class Hardware
         right.setMode(DcMotor.RunMode.RUN_WITHOUT_ENCODER);
     }
 
-    public void leftPower(double power){
-        left.setPower(power);
-    }
-    public void rightPower(double power){
-        right.setPower(power);
-    }
+
  }
 
