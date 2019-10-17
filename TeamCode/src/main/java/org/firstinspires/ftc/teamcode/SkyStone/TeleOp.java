@@ -107,7 +107,6 @@ public class TeleOp extends OpMode
 
 //newest update
 
-
         if(gamepad1.right_trigger>0.25) {
             leftPower = gamepad1.left_stick_y/2;
             rightPower = gamepad1.right_stick_y/2;
