@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
@@ -60,6 +61,8 @@ public class TeleOp extends OpMode
     private DcMotor lb = null;
     private DcMotor rf = null;
     private DcMotor rb = null;
+    private Servo arm = null;
+    double armPos;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -120,8 +123,15 @@ public class TeleOp extends OpMode
         rf.setPower(rightPower);
         rb.setPower(rightPower);
 
-
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
+        if(gamepad1.a){
+            armPos += .05;
+        } else if(gamepad1.b){
+            armPos -= .05;
+        }
+        arm.setPosition(armPos);
+        telemetry.addData("Arm position: ",armPos);
+        telemetry.update();
+        //telemetry.addData("Status", "Run Time: " + runtime.toString());
         //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
     }
 
