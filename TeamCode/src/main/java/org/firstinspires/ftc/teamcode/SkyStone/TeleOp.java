@@ -128,6 +128,11 @@ public class TeleOp extends OpMode
         } else if(gamepad1.b){
             armPos -= .05;
         }
+        if(armPos >=1){
+            armPos =1;
+        } else if(armPos <0){
+            armPos =0;
+        }
         arm.setPosition(armPos);
         telemetry.addData("Arm position: ",armPos);
         telemetry.update();
