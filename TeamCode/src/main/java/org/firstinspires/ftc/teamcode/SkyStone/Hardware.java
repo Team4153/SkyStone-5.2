@@ -24,6 +24,8 @@ public abstract class Hardware extends LinearOpMode
 
 
     private HardwareMap hwMap           =  null;
+   // private Servo arm = null;
+   // double armPos;
     //private ElapsedTime period  = new ElapsedTime();
 
     public Hardware(){
@@ -53,7 +55,17 @@ public abstract class Hardware extends LinearOpMode
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
     }
+
+    public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
+        lf.setPower(lfPower);
+        lb.setPower(lbPower);
+        rf.setPower(rfPower);
+        rb.setPower(rbPower);
+    }
+
     public void encoderDrive(double lfInches, double rfInches) {
         int leftTarget;
         int rightTarget;
@@ -74,6 +86,7 @@ public abstract class Hardware extends LinearOpMode
             rSpeed = DRIVE_SPEED;
             lSpeed =  rSpeed * ratio;
         }
+
 
             lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);

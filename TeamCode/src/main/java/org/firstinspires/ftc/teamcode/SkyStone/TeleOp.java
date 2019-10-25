@@ -35,6 +35,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
+import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * This file contains an example of an iterative (Non-Linear) "OpMode".
@@ -60,6 +61,8 @@ public class TeleOp extends OpMode
     private DcMotor lb = null;
     private DcMotor rf = null;
     private DcMotor rb = null;
+    private Servo arm = null;
+    double armPos;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -69,7 +72,8 @@ public class TeleOp extends OpMode
         telemetry.addData("Status", "Initialized");
 
 
-        lf= hardwareMap.get(DcMotor.class, "lf");
+        lf = hardwareMap.get(DcMotor.class, "lf");
+        arm = hardwareMap.get(Servo.class, "arm");
         lb  = hardwareMap.get(DcMotor.class, "lb");
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
@@ -102,27 +106,52 @@ public class TeleOp extends OpMode
      */
     @Override
     public void loop() {
-        double leftPower;
-        double rightPower;
+        double lfPower=0;
+        double lbPower=0;
+        double rfPower=0;
+        double rbPower=0;
 
 //newest update
-
-        if(gamepad1.right_trigger>0.25) {
-            leftPower = gamepad1.left_stick_y/2;
-            rightPower = gamepad1.right_stick_y/2;
+        if (gamepad1.left_bumper){
+            lfPower = 0.8;
+            lbPower = -0.8;
+            rfPower = -0.8;
+            rbPower = 0.8;
+        } else if (gamepad1.right_bumper){
+            lfPower = -0.8;
+            lbPower = 0.8;
+            rfPower = 0.8;
+            rbPower = -0.8;
+        } else if(gamepad1.right_trigger>0.25) {
+            lfPower = gamepad1.left_stick_y/2;
+            lbPower = gamepad1.left_stick_y/2;
+            rfPower = gamepad1.right_stick_y/2;
+            rbPower = gamepad1.right_stick_y/2;
         } else {
-            leftPower = gamepad1.left_stick_y;
-            rightPower = gamepad1.right_stick_y;
+            lfPower = gamepad1.left_stick_y;
+            lbPower = gamepad1.left_stick_y;
+            rfPower = gamepad1.right_stick_y;
+            rbPower = gamepad1.right_stick_y;
         }
 
-        lf.setPower(leftPower);
-        lb.setPower(leftPower);
-        rf.setPower(rightPower);
-        rb.setPower(rightPower);
+        lf.setPower(lfPower);
+        lb.setPower(lbPower);
+        rf.setPower(rfPower);
+        rb.setPower(rbPower);
+
+        if (gamepad1.x){
+            arm.setPosition(0);
+        } else if (gamepad1.b) {
+            arm.setPosition(0.25);
+        }
 
 
-        telemetry.addData("Status", "Run Time: " + runtime.toString());
-        //telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
+        //arm.setPosition();
+        telemetry.addData("Arm position: ",arm.getPosition());
+        telemetry.update();
+
+
+
     }
 
     /*
