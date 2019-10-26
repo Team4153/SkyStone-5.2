@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
@@ -8,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Loading zone auto")
+@Autonomous(name="Loading zone auto")
 //@Disabled
 public class LoadingZoneAuto extends Hardware {
     //private Hardware         robot   = new Hardware();   // Use a Pushbot's hardware
@@ -27,7 +28,7 @@ public class LoadingZoneAuto extends Hardware {
         //run stuff
 
         setP(0.5,0.5,0.5,0.5);
-        sleep(1000);
+        sleep(250);
         setP(0,0,0,0);
 
 

@@ -31,6 +31,7 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -61,8 +62,14 @@ public class TeleOp extends OpMode
     private DcMotor lb = null;
     private DcMotor rf = null;
     private DcMotor rb = null;
-    private Servo arm = null;
-    double armPos;
+    private DcMotor arm = null;
+    double lfPower=0;
+    double lbPower=0;
+    double rfPower=0;
+    double rbPower=0;
+    double armPow;
+
+    private static double DRIVE_SPEED = 0.5;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -73,7 +80,7 @@ public class TeleOp extends OpMode
 
 
         lf = hardwareMap.get(DcMotor.class, "lf");
-        arm = hardwareMap.get(Servo.class, "arm");
+        arm = hardwareMap.get(DcMotor.class, "arm");
         lb  = hardwareMap.get(DcMotor.class, "lb");
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
@@ -106,22 +113,19 @@ public class TeleOp extends OpMode
      */
     @Override
     public void loop() {
-        double lfPower=0;
-        double lbPower=0;
-        double rfPower=0;
-        double rbPower=0;
+
 
 //newest update
         if (gamepad1.left_bumper){
-            lfPower = 0.8;
-            lbPower = -0.8;
-            rfPower = -0.8;
-            rbPower = 0.8;
+            lfPower = DRIVE_SPEED;
+            lbPower = -DRIVE_SPEED;
+            rfPower = -DRIVE_SPEED;
+            rbPower = DRIVE_SPEED;
         } else if (gamepad1.right_bumper){
-            lfPower = -0.8;
-            lbPower = 0.8;
-            rfPower = 0.8;
-            rbPower = -0.8;
+            lfPower = -DRIVE_SPEED;
+            lbPower = DRIVE_SPEED;
+            rfPower = DRIVE_SPEED;
+            rbPower = -DRIVE_SPEED;
         } else if(gamepad1.right_trigger>0.25) {
             lfPower = gamepad1.left_stick_y/2;
             lbPower = gamepad1.left_stick_y/2;
@@ -139,16 +143,15 @@ public class TeleOp extends OpMode
         rf.setPower(rfPower);
         rb.setPower(rbPower);
 
-        if (gamepad1.x){
-            arm.setPosition(0);
-        } else if (gamepad1.b) {
-            arm.setPosition(0.25);
+        if(gamepad1.dpad_up){
+            armPow = -0.5;
+        } else if(gamepad1.dpad_down){
+            armPow = 0.33;
+        } else {
+            armPow = 0;
         }
+        arm.setPower(armPow);
 
-
-        //arm.setPosition();
-        telemetry.addData("Arm position: ",arm.getPosition());
-        telemetry.update();
 
 
 
