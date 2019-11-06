@@ -12,24 +12,23 @@ import com.qualcomm.robotcore.util.Range;
 @Autonomous(name="Loading zone auto")
 //@Disabled
 public class LoadingZoneAuto extends Hardware {
-    //private Hardware         robot   = new Hardware();   // Use a Pushbot's hardware
+    //private Hardware         robot   = new Hardware();
 
     //make new stuff
 
     @Override
     public void runOpMode() {
+        //init stuff
 
         init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        //init stuff
 
         waitForStart();
         //run stuff
 
-        setP(0.5,0.5,0.5,0.5);
-        sleep(250);
-        setP(0,0,0,0);
+        encoderDrive(15,15);
+        turn(90,LEFT);
 
 
 
