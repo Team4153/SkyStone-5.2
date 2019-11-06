@@ -26,7 +26,7 @@ public class TeleOp extends OpMode
     double rbPower=0;
     double armPow;
 
-    private static double DRIVE_SPEED = 0.5;
+    private static double STRAFE_SPEED = 0.5;
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -76,15 +76,15 @@ public class TeleOp extends OpMode
 
 //newest update
         if (gamepad1.left_bumper){
-            lfPower = DRIVE_SPEED;
-            lbPower = -DRIVE_SPEED;
-            rfPower = -DRIVE_SPEED;
-            rbPower = DRIVE_SPEED;
+            lfPower = STRAFE_SPEED;
+            lbPower = -STRAFE_SPEED;
+            rfPower = -STRAFE_SPEED;
+            rbPower = STRAFE_SPEED;
         } else if (gamepad1.right_bumper){
-            lfPower = -DRIVE_SPEED;
-            lbPower = DRIVE_SPEED;
-            rfPower = DRIVE_SPEED;
-            rbPower = -DRIVE_SPEED;
+            lfPower = -STRAFE_SPEED;
+            lbPower = STRAFE_SPEED;
+            rfPower = STRAFE_SPEED;
+            rbPower = -STRAFE_SPEED;
         } else if(gamepad1.right_trigger>0.25) {
             lfPower = gamepad1.left_stick_y/2;
             lbPower = gamepad1.left_stick_y/2;

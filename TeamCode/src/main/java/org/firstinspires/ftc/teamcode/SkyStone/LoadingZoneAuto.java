@@ -14,7 +14,7 @@ import com.qualcomm.robotcore.util.Range;
 public class LoadingZoneAuto extends Hardware {
     //private Hardware         robot   = new Hardware();
 
-    //make new stuff
+    //make local stuff
 
     @Override
     public void runOpMode() {
@@ -25,11 +25,12 @@ public class LoadingZoneAuto extends Hardware {
         telemetry.update();
 
         waitForStart();
+        telemetry.addData("Status","Running");
+        telemetry.update();
         //run stuff
 
-        encoderDrive(15,15);
-        turn(90,LEFT);
-
+        encoderDrive(36,36);
+        //turn(90,LEFT);
 
 
     }
