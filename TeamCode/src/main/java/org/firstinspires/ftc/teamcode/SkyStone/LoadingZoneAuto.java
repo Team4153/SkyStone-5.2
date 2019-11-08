@@ -29,8 +29,14 @@ public class LoadingZoneAuto extends Hardware {
         telemetry.update();
         //run stuff
 
-        encoderDrive(36,36);
-        //turn(90,LEFT);
+
+        reverseDrive(2.25,2.25);
+        dropArm();
+        reverseDrive(-1.25,-1.25);
+        turn(90,CLOCKWISE);
+        reverseDrive(4.5,4.5);
+        liftArm();
+        reverseDrive(-1,-1);
 
 
     }
