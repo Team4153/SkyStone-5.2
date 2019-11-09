@@ -22,13 +22,15 @@ public abstract class Hardware extends LinearOpMode
     static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
-    static final double     DRIVE_SPEED             = 0.6;
+    static final double     DRIVE_SPEED             = 0.7;
     static final double     TURN_SPEED              = 0.5;
     static final double     ROBOT_DIAMETER_FEET     = 16.0/FEET;
     static final double     ROBOT_CIRCUMFRANCE      = (Math.PI * ROBOT_DIAMETER_FEET);
 
     public static final boolean     COUNTER_CLOCKWISE    = false;
     public static final boolean     CLOCKWISE   = true;
+    public static final boolean     RIGHT   = false;
+    public static final boolean     LEFT    = true;
 
 
     private HardwareMap hwMap           =  null;
@@ -45,16 +47,20 @@ public abstract class Hardware extends LinearOpMode
 
         lf  = hwMap.get(DcMotor.class, "lf");
         lf.setDirection(DcMotor.Direction.REVERSE);
+        lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setPower(0);
 
         lb  = hwMap.get(DcMotor.class, "lb");
         lb.setDirection(DcMotor.Direction.REVERSE);
+        lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setPower(0);
 
         rf  = hwMap.get(DcMotor.class, "rf");
+        rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setPower(0);
 
         rb  = hwMap.get(DcMotor.class, "rb");
+        rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setPower(0);
 
         arm = hardwareMap.get(DcMotor.class, "arm");
@@ -74,28 +80,28 @@ public abstract class Hardware extends LinearOpMode
         rb.setPower(rbPower);
     }
 
-    public void encoderDrive(double iFeet, double rFeet) {
+    public void encoderDrive(double lFeet, double rFeet) {
         /**
          * This drives the robot using the encoders. Each side can be given powers.
          * Use a negative value to go backwards
          */
-        int leftTarget;
-        int rightTarget;
+        int lTarget;
+        int rTarget;
 
         double rSpeed, lSpeed;
-        lSpeed = (iFeet<0? -1 : 1);
+        lSpeed = (lFeet<0? -1 : 1);
         rSpeed = (rFeet<0? -1 : 1);
 
-        leftTarget = ((int)(iFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
-        rightTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
+        lTarget = ((int)(lFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
+        rTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
 
         double ratio;   //power change
-        if(leftTarget<rightTarget) {
-            ratio = leftTarget / rightTarget;
+        if(Math.abs(lTarget)<Math.abs(rTarget)) {
+            ratio = lTarget / rTarget;
             rSpeed *= DRIVE_SPEED;
             lSpeed *= DRIVE_SPEED * ratio;
-        } else if(rightTarget<leftTarget){
-            ratio = rightTarget / leftTarget;
+        } else if(Math.abs(rTarget)<Math.abs(lTarget)){
+            ratio = rTarget / lTarget;
             lSpeed *= DRIVE_SPEED;
             rSpeed *= DRIVE_SPEED * ratio;
         } else {
@@ -109,10 +115,10 @@ public abstract class Hardware extends LinearOpMode
             rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
 
-            lf.setTargetPosition(leftTarget);
-            lb.setTargetPosition(leftTarget);
-            rf.setTargetPosition(rightTarget);
-            rb.setTargetPosition(rightTarget);
+            lf.setTargetPosition(lTarget);
+            lb.setTargetPosition(lTarget);
+            rf.setTargetPosition(rTarget);
+            rb.setTargetPosition(rTarget);
 
             lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -138,7 +144,70 @@ public abstract class Hardware extends LinearOpMode
             rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-            sleep(100);
+            //sleep(100);
+    }
+
+    public void encoderStrafe(double feet, boolean direction) {
+        /**
+         * This strafes the robot using the encoders. Each side can be given distances.
+         * Direction is LEFT or RIGHT
+         */
+        double speed;
+        int target;
+
+        int rbTarget, rfTarget, lbTarget, lfTarget;
+
+        speed = DRIVE_SPEED;
+
+        target = ((int)((feet/2) * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
+
+        if(direction){  //right
+            lfTarget = -target;
+            lbTarget = target;
+            rfTarget = target;
+            rbTarget = -target;
+        } else {        //left
+            lfTarget = target;
+            lbTarget = -target;
+            rfTarget = -target;
+            rbTarget = target;
+        }
+
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lf.setTargetPosition(lfTarget);
+        lb.setTargetPosition(lbTarget);
+        rf.setTargetPosition(rfTarget);
+        rb.setTargetPosition(rbTarget);
+
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        lf.setPower(speed);
+        lb.setPower(speed);
+        rf.setPower(speed);
+        rb.setPower(speed);
+
+        while (opModeIsActive() && (
+                (lf.isBusy() || rf.isBusy()))) {
+            idle();
+        }
+        lf.setPower(0);
+        lb.setPower(0);
+        rf.setPower(0);
+        rb.setPower(0);
+
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        //sleep(100);
     }
 
     public void turn(int degrees, boolean direction){
@@ -152,15 +221,11 @@ public abstract class Hardware extends LinearOpMode
         telemetry.addData("target",target);
 
         if(direction){  // clockwise
-            telemetry.addData("loop",1);
-            telemetry.update();
             encoderDrive(target * 2, -target * 2); //adjusted
         } else {
-            telemetry.addData("loop",2);
-            telemetry.update();
             encoderDrive(-target * 2, target * 2); //adjusted
         }
-        sleep(500);
+        //sleep(500);
     }
 
     public void dropArm(){
@@ -180,3 +245,4 @@ public abstract class Hardware extends LinearOpMode
     }
 
  }
+

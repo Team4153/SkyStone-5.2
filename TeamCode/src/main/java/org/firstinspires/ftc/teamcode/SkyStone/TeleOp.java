@@ -103,7 +103,7 @@ public class TeleOp extends OpMode
         rb.setPower(rbPower);
 
         if(gamepad1.dpad_up){
-            armPow = 0.5;
+            armPow = 0.35;
         } else if(gamepad1.dpad_down){
             armPow = -0.33;
         } else {
