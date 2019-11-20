@@ -7,11 +7,12 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
-@com.qualcomm.robotcore.eventloop.opmode.TeleOp(name="TELE OP")
+@TeleOp(name="TELE OP")
 //@Disabled
-public class TeleOp extends OpMode
+public class Tele extends OpMode
 {
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();

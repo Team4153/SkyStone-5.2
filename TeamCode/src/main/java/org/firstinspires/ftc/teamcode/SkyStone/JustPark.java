@@ -21,8 +21,23 @@ public class JustPark extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        int delay = 0;
+        while(!opModeIsActive()){
+
+            if(gamepad1.a){
+                delay ++;
+                sleep(400);
+            } else if(gamepad1.b){
+                delay--;
+                sleep(400);
+            }
+            telemetry.addData("Delay",delay);
+            telemetry.update();
+        }
+
         waitForStart();
 
+        sleep(delay*1000);
         setP(1,1,1,1);
         sleep(700);
         setP(0,0,0,0);

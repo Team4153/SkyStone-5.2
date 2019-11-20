@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 //import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.ElapsedTime;
+//import com.qualcomm.robotcore.util.ElapsedTime;
 
 public abstract class Hardware extends LinearOpMode
 {
@@ -17,15 +17,16 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor arm = null;
 
 
-    static final double     FEET                    = 14.75;    //adjusted
-    static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
-    static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
-    static final double     DRIVE_SPEED             = 0.7;
-    static final double     TURN_SPEED              = 0.5;
-    static final double     ROBOT_DIAMETER_FEET     = 16.0/FEET;
-    static final double     ROBOT_CIRCUMFRANCE      = (Math.PI * ROBOT_DIAMETER_FEET);
+    private static final double     FEET                    = 14.75;    //adjusted
+    private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
+    private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
+    private static final double     DRIVE_SPEED             = 0.7;
+    private static final double           ADJUSTMENT              = 0.15;
+    //static final double     TURN_SPEED              = 0.5;
+    private static final double     ROBOT_DIAMETER_FEET     = 16.0/FEET;
+    private static final double     ROBOT_CIRCUMFRANCE      = (Math.PI * ROBOT_DIAMETER_FEET);
 
     public static final boolean     COUNTER_CLOCKWISE    = false;
     public static final boolean     CLOCKWISE   = true;
@@ -89,8 +90,6 @@ public abstract class Hardware extends LinearOpMode
         int rTarget;
 
         double rSpeed, lSpeed;
-        lSpeed = (lFeet<0? -1 : 1);
-        rSpeed = (rFeet<0? -1 : 1);
 
         lTarget = ((int)(lFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
         rTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
@@ -98,17 +97,19 @@ public abstract class Hardware extends LinearOpMode
         double ratio;   //power change
         if(Math.abs(lTarget)<Math.abs(rTarget)) {
             ratio = lTarget / rTarget;
-            rSpeed *= DRIVE_SPEED;
-            lSpeed *= DRIVE_SPEED * ratio;
+            rSpeed = DRIVE_SPEED-ADJUSTMENT;
+            lSpeed = DRIVE_SPEED * ratio;
         } else if(Math.abs(rTarget)<Math.abs(lTarget)){
             ratio = rTarget / lTarget;
-            lSpeed *= DRIVE_SPEED;
-            rSpeed *= DRIVE_SPEED * ratio;
+            lSpeed = DRIVE_SPEED;
+            rSpeed = DRIVE_SPEED * ratio - ADJUSTMENT;
         } else {
-            lSpeed *= DRIVE_SPEED;
-            rSpeed *= DRIVE_SPEED;
+            lSpeed = DRIVE_SPEED;
+            rSpeed = DRIVE_SPEED - ADJUSTMENT;
         }
 
+        lSpeed *= (lFeet<0? -1 : 1);
+        rSpeed *= (rFeet<0? -1 : 1);
 
             lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
             lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
@@ -143,8 +144,6 @@ public abstract class Hardware extends LinearOpMode
             lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            //sleep(100);
     }
 
     public void encoderStrafe(double feet, boolean direction) {
@@ -206,8 +205,6 @@ public abstract class Hardware extends LinearOpMode
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        //sleep(100);
     }
 
     public void turn(int degrees, boolean direction){
