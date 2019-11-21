@@ -19,25 +19,74 @@ public class WhenItBreaks extends Hardware {
 
         waitForStart();
 
-        double start = System.currentTimeMillis();
-        oneMotor(lf,3,.5);
-        double end = System.currentTimeMillis();
-        telemetry.addData("lf",end-start);
-        start = System.currentTimeMillis();
-        oneMotor(lb,3,.5);
-        end = System.currentTimeMillis();
-        telemetry.addData("lb",end-start);
-        start = System.currentTimeMillis();
-        oneMotor(rf,3,.5);
-        end = System.currentTimeMillis();
-        telemetry.addData("rf",end-start);
-        start = System.currentTimeMillis();
-        oneMotor(rb,3,.5);
-        end = System.currentTimeMillis();
-        telemetry.addData("rb",end-start);
+        double lfA=0, lbA=0, rfA=0, rbA=0;
+        int runs = 10;
 
+        for(int i=0; i<runs; i++) {
+            double start = System.currentTimeMillis();
+            oneMotor(lf, 3, .5);
+            double end = System.currentTimeMillis();
+            telemetry.addData("lf", end - start);
+            lfA+=end-start;
+            start = System.currentTimeMillis();
+            oneMotor(lb, 3, .5);
+            end = System.currentTimeMillis();
+            telemetry.addData("lb", end - start);
+            lbA+=end-start;
+            start = System.currentTimeMillis();
+            oneMotor(rf, 3, .5);
+            end = System.currentTimeMillis();
+            telemetry.addData("rf", end - start);
+            rfA+=end-start;
+            start = System.currentTimeMillis();
+            oneMotor(rb, 3, .5);
+            end = System.currentTimeMillis();
+            telemetry.addData("rb", end - start);
+            rbA+=end-start;
+            telemetry.update();
+            //sleep(100);
+        }
+        lfA /=runs;
+        lbA /=runs;
+        rfA /=runs;
+        rbA /=runs;
+
+        telemetry.addData("lfA",lfA);
+        telemetry.addData("lbA",lbA);
+        telemetry.addData("rfA",rfA);
+        telemetry.addData("rbA",rbA);
         telemetry.update();
-        sleep(50000000);
+        sleep(5000);
+
+        if(lfA>lbA && lfA>rbA && lfA>rfA){
+            lbA /= lfA;
+            rbA /= lfA;
+            rfA /= lfA;
+            lfA = 1;
+        } else if(lbA>lfA && lbA>rbA && lbA>rfA){
+            lfA /= lbA;
+            rbA /= lbA;
+            rfA /= lbA;
+            lbA = 1;
+        } else if(rbA>lfA && rbA>lbA && rbA>rfA){
+            lbA /= rbA;
+            rfA /= rbA;
+            lfA /= rbA;
+            rbA = 1;
+        } else{
+            lbA /= rfA;
+            rbA /= rfA;
+            lfA /= rfA;
+            rfA = 1;
+        }
+
+        telemetry.addData("new","----");
+        telemetry.addData("lfA",lfA);
+        telemetry.addData("lbA",lbA);
+        telemetry.addData("rfA",rfA);
+        telemetry.addData("rbA",rbA);
+        telemetry.update();
+        sleep(5000);
     }
         public void oneMotor(DcMotor motor, int target, double power){
 
