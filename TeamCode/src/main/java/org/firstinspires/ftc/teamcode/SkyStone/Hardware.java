@@ -16,6 +16,10 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor  rb   = null;
     public DcMotor arm = null;
 
+    private static final double lfA = 1;
+    private static final double lbA = 1;
+    private static final double rfA = 1;
+    private static final double rbA = 1;
 
     private static final double     FEET                    = 14.75;    //adjusted
     private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
@@ -75,10 +79,10 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
-        lf.setPower(lfPower);
-        lb.setPower(lbPower);
-        rf.setPower(rfPower);
-        rb.setPower(rbPower);
+        lf.setPower(lfPower * lfA);
+        lb.setPower(lbPower * lbA);
+        rf.setPower(rfPower * rfA);
+        rb.setPower(rbPower * rbA);
     }
 
     public void encoderDrive(double lFeet, double rFeet) {
@@ -126,19 +130,13 @@ public abstract class Hardware extends LinearOpMode
             rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            lf.setPower(lSpeed);
-            lb.setPower(lSpeed);
-            rf.setPower(rSpeed);
-            rb.setPower(lSpeed);
+            setP(lSpeed, lSpeed, rSpeed, rSpeed);
 
             while (opModeIsActive() && (
                     (lf.isBusy() || rf.isBusy()))) {
                 idle();
             }
-            lf.setPower(0);
-            lb.setPower(0);
-            rf.setPower(0);
-            rb.setPower(0);
+            setP(0, 0, 0, 0);
 
             lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -187,19 +185,13 @@ public abstract class Hardware extends LinearOpMode
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lf.setPower(speed);
-        lb.setPower(speed);
-        rf.setPower(speed);
-        rb.setPower(speed);
+        setP(speed, speed, speed, speed);
 
         while (opModeIsActive() && (
                 (lf.isBusy() || rf.isBusy()))) {
             idle();
         }
-        lf.setPower(0);
-        lb.setPower(0);
-        rf.setPower(0);
-        rb.setPower(0);
+        setP(0, 0, 0, 0);
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
