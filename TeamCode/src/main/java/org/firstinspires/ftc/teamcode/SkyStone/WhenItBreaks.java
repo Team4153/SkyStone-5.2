@@ -18,7 +18,32 @@ public class WhenItBreaks extends Hardware {
 
 
         waitForStart();
-//
+
+        distanceCalibration();
+
+
+    }
+    public void distanceCalibration(){
+        COUNTS_PER_INCH -=COUNTS_PER_INCH*.4;
+        int x = 0;
+        while(opModeIsActive()) {
+            x++;
+            encoderDrive(2, 2);
+            sleep(500);
+            encoderDrive(-2,-2);
+            sleep(1000);
+            telemetry.addData("COUNTS_PER_INCH",COUNTS_PER_INCH);
+            telemetry.addData("x",x);
+            telemetry.update();
+            COUNTS_PER_INCH *=1.1;
+            if(x>10 || gamepad1.a){
+                break;
+            }
+        }
+        sleep(50000000);
+    }
+
+    public void timeCalibration(){
         double lfA=0, lbA=0, rfA=0, rbA=0;
         int runs = 10;
 
@@ -44,7 +69,6 @@ public class WhenItBreaks extends Hardware {
             telemetry.addData("rb", end - start);
             rbA+=end-start;
             telemetry.update();
-            //sleep(100);
         }
         lfA /=runs;
         lbA /=runs;
@@ -58,25 +82,25 @@ public class WhenItBreaks extends Hardware {
         telemetry.update();
         sleep(5000);
 
-        if(lfA>lbA && lfA>rbA && lfA>rfA){
-            lbA /= lfA;
-            rbA /= lfA;
-            rfA /= lfA;
+        if(lfA<lbA && lfA<rbA && lfA<rfA){
+            lbA = lfA/lbA;
+            rbA = lfA/rbA;
+            rfA = lfA/rfA;
             lfA = 1;
-        } else if(lbA>lfA && lbA>rbA && lbA>rfA){
-            lfA /= lbA;
-            rbA /= lbA;
-            rfA /= lbA;
+        } else if(lbA<lfA && lbA<rbA && lbA<rfA){
+            lfA = lbA/lfA;
+            rbA = lbA/rbA;
+            rfA = lbA/rfA;
             lbA = 1;
-        } else if(rbA>lfA && rbA>lbA && rbA>rfA){
-            lbA /= rbA;
-            rfA /= rbA;
-            lfA /= rbA;
+        } else if(rbA<lfA && rbA<lbA && rbA<rfA){
+            lbA = rbA/lbA;
+            rfA = rbA/rfA;
+            lfA = rbA/lfA;
             rbA = 1;
         } else{
-            lbA /= rfA;
-            rbA /= rfA;
-            lfA /= rfA;
+            lbA = rfA/lbA;
+            rbA = rfA/rbA;
+            lfA = rfA/lfA;
             rfA = 1;
         }
 
@@ -88,28 +112,5 @@ public class WhenItBreaks extends Hardware {
         telemetry.update();
         sleep(5000);
     }
-        public void oneMotor(DcMotor motor, int target, double power){
-
-            target *= (int)(COUNTS_PER_INCH * 12);
-
-            motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-
-            motor.setTargetPosition(target);
-
-            motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-
-            motor.setPower(power);
-
-            while (opModeIsActive() && (
-                    motor.isBusy()) ) {
-                idle();
-            }
-            motor.setPower(0);
-
-
-            motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-        }
-
-        }
+}
 

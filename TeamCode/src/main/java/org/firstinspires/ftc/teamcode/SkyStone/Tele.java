@@ -27,6 +27,21 @@ public class Tele extends OpMode
     double rbPower=0;
     double armPow;
 
+    /*
+    private static final double lfA = 0.991;
+    private static final double lbA = 0.991;
+    private static final double rfA = 1.0;
+    private static final double rbA = 0.998;
+    */
+
+    double adjust = 0.499999;
+
+    double lfA = 0.991 - adjust;
+    double lbA = 0.991 - adjust;
+    double rfA = 1.0;
+    double rbA = 1.0;//0.998;
+
+
     private static double STRAFE_SPEED = 0.5;
 
     /*
@@ -47,6 +62,16 @@ public class Tele extends OpMode
         lb.setDirection(DcMotor.Direction.FORWARD);
         rf.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.REVERSE);
+
+        lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         arm.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -75,6 +100,12 @@ public class Tele extends OpMode
     public void loop() {
 
 
+         //lfA = 0.991 - adjust;
+         //lbA = 0.991 - adjust;
+         //rfA = 1.0;
+         //rbA = 1.0;//0.998;
+
+
 //newest update
         if (gamepad1.left_bumper){
             lfPower = STRAFE_SPEED;
@@ -98,10 +129,10 @@ public class Tele extends OpMode
             rbPower = gamepad1.right_stick_y;
         }
 
-        lf.setPower(lfPower);
-        lb.setPower(lbPower);
-        rf.setPower(rfPower);
-        rb.setPower(rbPower);
+        lf.setPower(lfPower*lfA);
+        lb.setPower(lbPower*lbA);
+        rf.setPower(rfPower*rfA);
+        rb.setPower(rbPower*rbA);
 
         if(gamepad1.dpad_up){
             armPow = 0.35;
@@ -111,6 +142,22 @@ public class Tele extends OpMode
             armPow = 0;
         }
         arm.setPower(armPow);
+
+        /*
+        if(gamepad1.a){
+            adjust+=0.05;
+            while (gamepad1.a){
+                telemetry.addData("Adjustment",adjust);
+                telemetry.update();
+            }
+        }
+        if(gamepad1.b){
+            adjust-=0.05;
+            while (gamepad1.b){
+                telemetry.addData("Adjustment",adjust);
+                telemetry.update();
+            }
+        }//*/
 
 
 

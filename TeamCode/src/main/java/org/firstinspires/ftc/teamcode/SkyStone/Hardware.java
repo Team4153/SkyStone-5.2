@@ -16,14 +16,19 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor  rb   = null;
     public DcMotor arm = null;
 
+    private static final double adjust = 0.4999999;
+    private static final double lfA = 0.991  - adjust;
+    private static final double lbA = 0.991 - adjust;
+    private static final double rfA = 1;
+    private static final double rbA = 1;
 
     private static final double     FEET                    = 14.75;    //adjusted
     private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    public static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
+    /*public static final*/ public double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double     DRIVE_SPEED             = 0.7;
-    private static final double           ADJUSTMENT              = 0.15;
+    private static final double           ADJUSTMENT              = 0;//0.15;
     //static final double     TURN_SPEED              = 0.5;
     private static final double     ROBOT_DIAMETER_FEET     = 16.0/FEET;
     private static final double     ROBOT_CIRCUMFRANCE      = (Math.PI * ROBOT_DIAMETER_FEET);
@@ -75,10 +80,10 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
-        lf.setPower(lfPower);
-        lb.setPower(lbPower);
-        rf.setPower(rfPower);
-        rb.setPower(rbPower);
+        lf.setPower(lfPower * lfA);
+        lb.setPower(lbPower * lbA);
+        rf.setPower(rfPower * rfA);
+        rb.setPower(rbPower * rbA);
     }
 
     public void encoderDrive(double lFeet, double rFeet) {
@@ -126,19 +131,15 @@ public abstract class Hardware extends LinearOpMode
             rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
             rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-            lf.setPower(lSpeed);
-            lb.setPower(lSpeed);
-            rf.setPower(rSpeed);
-            rb.setPower(lSpeed);
+            setP(lSpeed, lSpeed, rSpeed, rSpeed);
+
 
             while (opModeIsActive() && (
                     (lf.isBusy() || rf.isBusy()))) {
                 idle();
             }
-            lf.setPower(0);
-            lb.setPower(0);
-            rf.setPower(0);
-            rb.setPower(0);
+            setP(0, 0, 0, 0);
+
 
             lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -187,19 +188,15 @@ public abstract class Hardware extends LinearOpMode
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        lf.setPower(speed);
-        lb.setPower(speed);
-        rf.setPower(speed);
-        rb.setPower(speed);
+        setP(speed, speed, speed, speed);
+
 
         while (opModeIsActive() && (
                 (lf.isBusy() || rf.isBusy()))) {
             idle();
         }
-        lf.setPower(0);
-        lb.setPower(0);
-        rf.setPower(0);
-        rb.setPower(0);
+        setP(0, 0, 0, 0);
+
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -239,6 +236,29 @@ public abstract class Hardware extends LinearOpMode
 
     public void reverseDrive(double lFeet, double rFeet){
         encoderDrive(-rFeet, -lFeet);
+    }
+
+    public void oneMotor(DcMotor motor, int target, double power){
+
+        target *= (int)(COUNTS_PER_INCH * 12);
+
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        motor.setTargetPosition(target);
+
+        motor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        motor.setPower(power);
+
+        while (opModeIsActive() && (
+                motor.isBusy()) ) {
+            idle();
+        }
+        motor.setPower(0);
+
+
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
     }
 
  }
