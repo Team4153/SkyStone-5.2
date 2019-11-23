@@ -81,6 +81,27 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
+    public void addDelay(){
+        double delay = 0;
+        while (!opModeIsActive()){
+            if(gamepad1.a){
+                delay +=1;
+                while (gamepad1.a){
+                    telemetry.addData("delay",delay);
+                    telemetry.update();
+                }
+            }
+            else if(gamepad1.b){
+                delay-=1;
+                while (gamepad1.b){
+                    telemetry.addData("delay",delay);
+                    telemetry.update();
+                }
+            }
+        }
+        sleep((long)(100*delay));
+    }
+
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower);// * lfA);
         lb.setPower(lbPower);// * lbA);
@@ -155,6 +176,67 @@ public abstract class Hardware extends LinearOpMode
             rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
+
+    public void encoderDrive(double lFeet, double rFeet, double power) {
+        /**
+         * This drives the robot using the encoders. Each side can be given powers.
+         * Use a negative value to go backwards
+         */
+        int lTarget;
+        int rTarget;
+
+        double rSpeed, lSpeed;
+
+        lTarget = ((int)(lFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
+        rTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
+
+        double ratio;   //power change
+        if(Math.abs(lTarget)<Math.abs(rTarget)) {
+            ratio = lTarget / rTarget;
+            rSpeed = power;//-ADJUSTMENT;
+            lSpeed = power * ratio;
+        } else if(Math.abs(rTarget)<Math.abs(lTarget)){
+            ratio = rTarget / lTarget;
+            lSpeed = power;
+            rSpeed = power * ratio;// - ADJUSTMENT;
+        } else {
+            lSpeed = power;
+            rSpeed = power;// - ADJUSTMENT;
+        }
+
+        lSpeed *= (lFeet<0? -1 : 1);
+        rSpeed *= (rFeet<0? -1 : 1);
+
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lf.setTargetPosition(lTarget);
+        lb.setTargetPosition(lTarget);
+        rf.setTargetPosition(rTarget);
+        rb.setTargetPosition(rTarget);
+
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        setP(lSpeed, lSpeed, rSpeed, rSpeed);
+
+
+        while (opModeIsActive() && (
+                (lf.isBusy() || rf.isBusy()))) {
+            idle();
+        }
+        setP(0, 0, 0, 0);
+
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
 
     public void gayDrive(double lFeet, double rFeet) {
         /**
@@ -302,7 +384,7 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void liftGrab() {
-        grabber.setPower(-.35);
+        grabber.setPower(-.5);
         sleep(500);
         grabber.setPower(0);
     }

@@ -15,14 +15,44 @@ public class BuildingZoneRed extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        //addDelay();
+        double[] choices = {0,0,0};
+        int selected = 0;
+        while (!opModeIsActive()){
+            if(gamepad1.a){
+                selected++;
+                while(gamepad1.a){
+                    telemetry.addData("selectd",selected);
+                    telemetry.update();
+                }
+            } else if(gamepad1.b){
+                selected--;
+                while (gamepad1.b){
+                    telemetry.addData("selected",selected);
+                    telemetry.update();
+                }
+            } else if(gamepad1.x){
+                choices[selected]++;
+                while (gamepad1.x){
+                    telemetry.addData("chosen",choices[selected]);
+                    telemetry.update();
+                }
+            } else if(gamepad1.y){
+                choices[selected]--;
+                while (gamepad1.y){
+                    telemetry.addData("chosen",choices[selected]);
+                    telemetry.update();
+                }
+            }
+        }
         waitForStart();
 
-
-        reverseDrive(4,4);
+        encoderDrive(-3.4-choices[0],-3.4-choices[0]);
+        encoderDrive(.3+choices[1]/10.0,.3+choices[selected]/10.0,.3);
         dropGrab();
-        reverseDrive(-3.5,-3.5);
+        encoderDrive(3+choices[2],3+choices[2], .3);
         liftGrab();
-        encoderStrafe(/*7*/8,RIGHT);
+        encoderStrafe(/*7*/10,RIGHT);
         /*
         encoderDrive(3.5,3.5);
         //grabber down

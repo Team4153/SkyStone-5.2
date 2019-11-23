@@ -22,24 +22,41 @@ public class JustPark extends Hardware {
         telemetry.update();
 
         int delay = 0;
+        int dist = 0;
         while(!opModeIsActive()){
 
-            if(gamepad1.a){
-                delay ++;
-                sleep(400);
-            } else if(gamepad1.b){
-                delay--;
-                sleep(400);
-            }
-            telemetry.addData("Delay",delay);
-            telemetry.update();
+           if(gamepad1.a){
+               delay++;
+               while(gamepad1.a){
+                   telemetry.addData("delay",delay);
+                   telemetry.update();
+               }
+           } else if(gamepad1.b){
+               delay--;
+               while (gamepad1.b){
+                   telemetry.addData("delay",delay);
+                   telemetry.update();
+               }
+           } else if(gamepad1.x){
+               dist++;
+               while (gamepad1.x){
+                   telemetry.addData("dist",dist);
+                   telemetry.update();
+               }
+           } else if(gamepad1.y){
+               dist--;
+               while (gamepad1.y){
+                   telemetry.addData("dist",dist);
+                   telemetry.update();
+               }
+           }
         }
 
         waitForStart();
 
         sleep(delay*1000);
         setP(1,1,1,1);
-        sleep(700);
+        sleep(700);                             //TODO: add application of 'dist'
         setP(0,0,0,0);
         }
     }
