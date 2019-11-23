@@ -3,9 +3,9 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Red Building Zone")
+@Autonomous(name="Blue Building Zone")
 //@Disabled
-public class BuildingZoneRed extends Hardware {
+public class BuildingZoneBlue extends Hardware {
 
 
     @Override
@@ -17,7 +17,7 @@ public class BuildingZoneRed extends Hardware {
 
         //addDelay();
         double[] choices = {0,0,0};
-        String[] names = {"forward","tiny back","back"};
+        String[] names = {"forward","tiny back","drag back"};
         int selected = 0;
         while (!opModeIsActive()){
             if(gamepad1.a){
@@ -53,7 +53,7 @@ public class BuildingZoneRed extends Hardware {
         dropGrab();
         encoderDrive(3+choices[2],3+choices[2], .3);
         liftGrab();
-        encoderStrafe(/*7*/10,RIGHT);
+        encoderStrafe(/*7*/10,LEFT);
         /*
         encoderDrive(3.5,3.5);
         //grabber down

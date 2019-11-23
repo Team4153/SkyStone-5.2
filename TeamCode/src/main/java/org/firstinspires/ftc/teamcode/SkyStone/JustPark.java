@@ -22,7 +22,10 @@ public class JustPark extends Hardware {
         telemetry.update();
 
         int delay = 0;
-        int dist = 0;
+        int dist = 7;
+        boolean selection = true;
+        String[] selectionName = {"move","arm drop"};
+
         while(!opModeIsActive()){
 
            if(gamepad1.a){
@@ -50,14 +53,31 @@ public class JustPark extends Hardware {
                    telemetry.update();
                }
            }
+            else if(gamepad1.dpad_up){
+                selection = false;
+                while (gamepad1.dpad_up){
+                    telemetry.addData("selection",selectionName[0]);
+                    telemetry.update();
+                }
+           } else if(gamepad1.dpad_down){
+                selection = true;
+                while (gamepad1.dpad_down){
+                    telemetry.addData("selection",selectionName[1]);
+                    telemetry.update();
+                }
+           }
         }
 
         waitForStart();
-
-        sleep(delay*1000);
-        setP(1,1,1,1);
-        sleep(700);                             //TODO: add application of 'dist'
-        setP(0,0,0,0);
+        //if(selection){
+            //dropGrab();
+        //}
+        //else{
+            sleep(delay * 1000);
+            setP(1, 1, 1, 1);
+            sleep(100 * dist);
+            setP(0, 0, 0, 0);
+        //}
         }
     }
 

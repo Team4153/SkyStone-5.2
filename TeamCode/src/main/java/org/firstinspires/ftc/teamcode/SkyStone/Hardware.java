@@ -109,13 +109,12 @@ public abstract class Hardware extends LinearOpMode
         rb.setPower(rbPower);// * rbA);
     }
 
-    public void gayP(double lfPower, double lbPower, double rfPower, double rbPower){
+    public void gayPower(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower * lfA);
         lb.setPower(lbPower * lbA);
         rf.setPower(rfPower * rfA);
         rb.setPower(rbPower * rbA);
     }
-
 
     public void encoderDrive(double lFeet, double rFeet) {
         /**
@@ -237,7 +236,6 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-
     public void gayDrive(double lFeet, double rFeet) {
         /**
          * This drives the robot using the encoders. Each side can be given powers.
@@ -283,7 +281,7 @@ public abstract class Hardware extends LinearOpMode
         rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
-        gayP(lSpeed, lSpeed, rSpeed, rSpeed);
+        gayPower(lSpeed, lSpeed, rSpeed, rSpeed);
 
 
         while (opModeIsActive() && (
@@ -291,9 +289,9 @@ public abstract class Hardware extends LinearOpMode
             idle();
         }
 
-        gayP(rSpeed,rSpeed,rSpeed,rSpeed);
+        gayPower(rSpeed,rSpeed,rSpeed,rSpeed);
         sleep(gay);
-        gayP(0, 0, 0, 0);
+        gayPower(0, 0, 0, 0);
 
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -378,7 +376,7 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void dropGrab(){
-        grabber.setPower(.25);
+        grabber.setPower(.45);
         sleep(500);
         grabber.setPower(0);
     }

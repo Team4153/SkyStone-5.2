@@ -18,6 +18,7 @@ public class Tele extends OpMode
     private DcMotor rf = null;
     private DcMotor rb = null;
     private DcMotor grabber = null;
+    private DcMotor cap = null;
     double lfPower=0;
     double lbPower=0;
     double rfPower=0;
@@ -53,6 +54,7 @@ public class Tele extends OpMode
         lb  = hardwareMap.get(DcMotor.class, "lb");
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
+        cap = hardwareMap.get(DcMotor.class, "cap");
 
         lf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.FORWARD);
@@ -138,9 +140,17 @@ public class Tele extends OpMode
         if(gamepad1.dpad_up){
             grabber.setPower(.45);
         } else if(gamepad1.dpad_down){
-            grabber.setPower(-.25);
+            grabber.setPower(-.45);
         } else{
             grabber.setPower(0);
+        }
+
+        if(gamepad1.a){
+            cap.setPower(.35);
+        } else if(gamepad1.b){
+            cap.setPower(-.35);
+        } else {
+            cap.setPower(0);
         }
 
         /*
