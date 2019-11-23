@@ -38,6 +38,8 @@ public abstract class Hardware extends LinearOpMode
     public static final boolean     RIGHT   = false;
     public static final boolean     LEFT    = true;
 
+    public int gay = 1000;
+
 
     private HardwareMap hwMap           =  null;
    // private Servo arm = null;
@@ -80,11 +82,19 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
+        lf.setPower(lfPower);// * lfA);
+        lb.setPower(lbPower);// * lbA);
+        rf.setPower(rfPower);// * rfA);
+        rb.setPower(rbPower);// * rbA);
+    }
+
+    public void gayP(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower * lfA);
         lb.setPower(lbPower * lbA);
         rf.setPower(rfPower * rfA);
         rb.setPower(rbPower * rbA);
     }
+
 
     public void encoderDrive(double lFeet, double rFeet) {
         /**
@@ -102,15 +112,15 @@ public abstract class Hardware extends LinearOpMode
         double ratio;   //power change
         if(Math.abs(lTarget)<Math.abs(rTarget)) {
             ratio = lTarget / rTarget;
-            rSpeed = DRIVE_SPEED-ADJUSTMENT;
+            rSpeed = DRIVE_SPEED;//-ADJUSTMENT;
             lSpeed = DRIVE_SPEED * ratio;
         } else if(Math.abs(rTarget)<Math.abs(lTarget)){
             ratio = rTarget / lTarget;
             lSpeed = DRIVE_SPEED;
-            rSpeed = DRIVE_SPEED * ratio - ADJUSTMENT;
+            rSpeed = DRIVE_SPEED * ratio;// - ADJUSTMENT;
         } else {
             lSpeed = DRIVE_SPEED;
-            rSpeed = DRIVE_SPEED - ADJUSTMENT;
+            rSpeed = DRIVE_SPEED;// - ADJUSTMENT;
         }
 
         lSpeed *= (lFeet<0? -1 : 1);
@@ -140,11 +150,74 @@ public abstract class Hardware extends LinearOpMode
             }
             setP(0, 0, 0, 0);
 
-
             lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void gayDrive(double lFeet, double rFeet) {
+        /**
+         * This drives the robot using the encoders. Each side can be given powers.
+         * Use a negative value to go backwards
+         */
+        int lTarget;
+        int rTarget;
+
+        double rSpeed, lSpeed;
+
+        lTarget = ((int)(lFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
+        rTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
+
+        double ratio;   //power change
+        if(Math.abs(lTarget)<Math.abs(rTarget)) {
+            ratio = lTarget / rTarget;
+            rSpeed = DRIVE_SPEED-ADJUSTMENT;
+            lSpeed = DRIVE_SPEED * ratio;
+        } else if(Math.abs(rTarget)<Math.abs(lTarget)){
+            ratio = rTarget / lTarget;
+            lSpeed = DRIVE_SPEED;
+            rSpeed = DRIVE_SPEED * ratio - ADJUSTMENT;
+        } else {
+            lSpeed = DRIVE_SPEED;
+            rSpeed = DRIVE_SPEED - ADJUSTMENT;
+        }
+
+        lSpeed *= (lFeet<0? -1 : 1);
+        rSpeed *= (rFeet<0? -1 : 1);
+
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lf.setTargetPosition(lTarget);
+        lb.setTargetPosition(lTarget);
+        rf.setTargetPosition(rTarget);
+        rb.setTargetPosition(rTarget);
+
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        gayP(lSpeed, lSpeed, rSpeed, rSpeed);
+
+
+        while (opModeIsActive() && (
+                (lf.isBusy() || rf.isBusy()))) {
+            idle();
+        }
+
+        gayP(rSpeed,rSpeed,rSpeed,rSpeed);
+        sleep(gay);
+        gayP(0, 0, 0, 0);
+
+
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
     public void encoderStrafe(double feet, boolean direction) {

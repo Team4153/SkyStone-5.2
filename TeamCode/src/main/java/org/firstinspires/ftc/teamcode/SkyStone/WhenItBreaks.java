@@ -16,11 +16,30 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        String[] choices = {"distance","time","gay"};
+        int run = 0;
+
+        while(!opModeIsActive()){
+            if(gamepad1.a){
+                run = 0;
+            } else if(gamepad1.b){
+                run = 1;
+            } else if(gamepad1.x){
+                run = 3;
+            }
+            telemetry.addData("--Test--",choices[run]);
+            telemetry.update();
+        }
 
         waitForStart();
 
-        distanceCalibration();
-
+        if(choices[run] == "distance"){
+            distanceCalibration();
+        } else if(choices[run] == "time"){
+            timeCalibration();
+        } else if(choices[run] == "gayFix"){
+            gayFix();
+        }
 
     }
     public void distanceCalibration(){
@@ -41,7 +60,7 @@ public class WhenItBreaks extends Hardware {
             }
         }
         sleep(50000000);
-    }
+    }  //makes sure we can go exact distances
 
     public void timeCalibration(){
         double lfA=0, lbA=0, rfA=0, rbA=0;
@@ -111,6 +130,21 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("rbA",rbA);
         telemetry.update();
         sleep(5000);
-    }
+    } //adjusts uneven motor qualities/powers
+
+    public void gayFix(){
+        gay = 500;
+        while(true){
+            gayDrive(2,2);
+            sleep(100);
+            gayDrive(-2,-2);
+            telemetry.addData("gay",gay);
+            telemetry.update();
+            sleep(500);
+            gay+=100;
+        }
+    } //is gay
+
+
 }
 

@@ -15,10 +15,9 @@ public class BuildingZoneRed extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-
         waitForStart();
 
-        //*
+
         encoderDrive(4,4);
         //grabber down
         encoderDrive(-3.5,-3.5);
@@ -30,7 +29,6 @@ public class BuildingZoneRed extends Hardware {
         encoderStrafe(3,RIGHT);
         //grabber up
         encoderDrive(-2,-2);
-        //*/
 
         }
     }
