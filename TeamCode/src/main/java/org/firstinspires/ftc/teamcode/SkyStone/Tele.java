@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 
@@ -20,12 +17,11 @@ public class Tele extends OpMode
     private DcMotor lb = null;
     private DcMotor rf = null;
     private DcMotor rb = null;
-    private DcMotor arm = null;
+    private DcMotor grabber = null;
     double lfPower=0;
     double lbPower=0;
     double rfPower=0;
     double rbPower=0;
-    double armPow;
 
     /*
     private static final double lfA = 0.991;
@@ -53,7 +49,7 @@ public class Tele extends OpMode
 
 
         lf = hardwareMap.get(DcMotor.class, "lf");
-        arm = hardwareMap.get(DcMotor.class, "arm");
+        grabber = hardwareMap.get(DcMotor.class, "grabber");
         lb  = hardwareMap.get(DcMotor.class, "lb");
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
@@ -73,7 +69,7 @@ public class Tele extends OpMode
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
-        arm.setDirection(DcMotorSimple.Direction.REVERSE);
+        grabber.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -122,6 +118,11 @@ public class Tele extends OpMode
             lbPower = gamepad1.left_stick_y/2;
             rfPower = gamepad1.right_stick_y/2;
             rbPower = gamepad1.right_stick_y/2;
+        } else if(gamepad1.left_trigger>0.25){
+            lfPower = gamepad1.left_stick_y/5;
+            lbPower = gamepad1.left_stick_y/5;
+            rfPower = gamepad1.right_stick_y/5;
+            rbPower = gamepad1.right_stick_y/5;
         } else {
             lfPower = gamepad1.left_stick_y;
             lbPower = gamepad1.left_stick_y;
@@ -129,19 +130,18 @@ public class Tele extends OpMode
             rbPower = gamepad1.right_stick_y;
         }
 
-        lf.setPower(lfPower*lfA);
-        lb.setPower(lbPower*lbA);
-        rf.setPower(rfPower*rfA);
-        rb.setPower(rbPower*rbA);
+        lf.setPower(lfPower);//*lfA);
+        lb.setPower(lbPower);//*lbA);
+        rf.setPower(rfPower);//*rfA);
+        rb.setPower(rbPower);//*rbA);
 
         if(gamepad1.dpad_up){
-            armPow = 0.35;
+            grabber.setPower(.45);
         } else if(gamepad1.dpad_down){
-            armPow = -0.33;
-        } else {
-            armPow = 0;
+            grabber.setPower(-.25);
+        } else{
+            grabber.setPower(0);
         }
-        arm.setPower(armPow);
 
         /*
         if(gamepad1.a){

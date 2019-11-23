@@ -42,10 +42,10 @@ public class Platform extends Hardware {
         encoderDrive(1.28-.3,1.28-.3);
         encoderStrafe(10.2,RIGHT);//cross side
         encoderDrive(-.6,-.6);
-        dropArm();
+        dropGrab();
         encoderDrive(1,1);
         encoderStrafe(8.2,LEFT);
-        liftArm();
+        liftGrab();
         encoderStrafe(3,RIGHT);
         //*/
         //encoderDrive(5,3);

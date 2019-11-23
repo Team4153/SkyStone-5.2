@@ -14,7 +14,7 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor  lb   = null;
     public DcMotor  rf   = null;
     public DcMotor  rb   = null;
-    public DcMotor arm = null;
+    public DcMotor grabber = null;
 
     private static final double adjust = 0.4999999;
     private static final double lfA = 0.991  - adjust;
@@ -42,7 +42,7 @@ public abstract class Hardware extends LinearOpMode
 
 
     private HardwareMap hwMap           =  null;
-   // private Servo arm = null;
+   // private Servo grabber = null;
    // double armPos;
     //private ElapsedTime period  = new ElapsedTime();
 
@@ -71,9 +71,9 @@ public abstract class Hardware extends LinearOpMode
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setPower(0);
 
-        arm = hardwareMap.get(DcMotor.class, "arm");
-        arm.setDirection(DcMotorSimple.Direction.REVERSE);
-        arm.setPower(0);
+        grabber = hardwareMap.get(DcMotor.class, "grabber");
+        grabber.setDirection(DcMotorSimple.Direction.REVERSE);
+        grabber.setPower(0);
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -295,16 +295,16 @@ public abstract class Hardware extends LinearOpMode
         //sleep(500);
     }
 
-    public void dropArm(){
-        arm.setPower(-.33);
+    public void dropGrab(){
+        grabber.setPower(-.33);
         sleep(500);
-        arm.setPower(0);
+        grabber.setPower(0);
     }
 
-    public void liftArm() {
-        arm.setPower(.5);
+    public void liftGrab() {
+        grabber.setPower(.5);
         sleep(500);
-        arm.setPower(0);
+        grabber.setPower(0);
     }
 
     public void reverseDrive(double lFeet, double rFeet){

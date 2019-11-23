@@ -65,8 +65,10 @@ public class WhenItBreaks extends Hardware {
     public void timeCalibration(){
         double lfA=0, lbA=0, rfA=0, rbA=0;
         int runs = 10;
+        int x = 0;
 
-        for(int i=0; i<runs; i++) {
+        while(true) {
+            x++;
             double start = System.currentTimeMillis();
             oneMotor(lf, 3, .5);
             double end = System.currentTimeMillis();
@@ -88,11 +90,14 @@ public class WhenItBreaks extends Hardware {
             telemetry.addData("rb", end - start);
             rbA+=end-start;
             telemetry.update();
+            if(x==runs || gamepad1.a){
+                break;
+            }
         }
-        lfA /=runs;
-        lbA /=runs;
-        rfA /=runs;
-        rbA /=runs;
+        lfA /=x;
+        lbA /=x;
+        rfA /=x;
+        rbA /=x;
 
         telemetry.addData("lfA",lfA);
         telemetry.addData("lbA",lbA);

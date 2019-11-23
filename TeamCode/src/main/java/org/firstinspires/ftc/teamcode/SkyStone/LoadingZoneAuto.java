@@ -2,12 +2,6 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Loading zone auto")
 //@Disabled
@@ -31,11 +25,11 @@ public class LoadingZoneAuto extends Hardware {
 
 
         reverseDrive(2.25,2.25);
-        dropArm();
+        dropGrab();
         reverseDrive(-1.25,-1.25);
         turn(90,CLOCKWISE);
         reverseDrive(4.5,4.5);
-        liftArm();
+        liftGrab();
         reverseDrive(-1,-1);
 
 
