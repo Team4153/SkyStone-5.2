@@ -26,7 +26,7 @@ public abstract class Hardware extends LinearOpMode
     private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    /*public static final*/ public double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
+    /*public static final*/ public double     COUNTS_PER_INCH         = 58.7207255495727;//(COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double     DRIVE_SPEED             = 0.7;
     private static final double           ADJUSTMENT              = 0;//0.15;
     //static final double     TURN_SPEED              = 0.5;
@@ -296,13 +296,13 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void dropGrab(){
-        grabber.setPower(-.33);
+        grabber.setPower(.25);
         sleep(500);
         grabber.setPower(0);
     }
 
     public void liftGrab() {
-        grabber.setPower(.5);
+        grabber.setPower(-.35);
         sleep(500);
         grabber.setPower(0);
     }

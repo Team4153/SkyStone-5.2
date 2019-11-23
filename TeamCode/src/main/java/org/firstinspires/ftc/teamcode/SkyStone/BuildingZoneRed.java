@@ -18,18 +18,19 @@ public class BuildingZoneRed extends Hardware {
         waitForStart();
 
 
-        encoderDrive(4,4);
-        //grabber down
-        encoderDrive(-3.5,-3.5);
-        //grabber up
-        encoderStrafe(7,LEFT);
+        reverseDrive(4,4);
+        dropGrab();
+        reverseDrive(-3.5,-3.5);
+        liftGrab();
+        encoderStrafe(/*7*/8,RIGHT);
+        /*
         encoderDrive(3.5,3.5);
         //grabber down
         encoderDrive(-2,-2);
         encoderStrafe(3,RIGHT);
         //grabber up
         encoderDrive(-2,-2);
-
+        //*/
         }
     }
 
