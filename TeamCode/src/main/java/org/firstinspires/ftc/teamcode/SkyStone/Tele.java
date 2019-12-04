@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -19,10 +20,16 @@ public class Tele extends OpMode
     private DcMotor rb = null;
     private DcMotor grabber = null;
     private DcMotor cap = null;
+    private DcMotor lIntake = null;
+    private DcMotor rIntake = null;
+    //private Servo
+
     double lfPower=0;
     double lbPower=0;
     double rfPower=0;
     double rbPower=0;
+
+
 
     /*
     private static final double lfA = 0.991;
@@ -55,6 +62,8 @@ public class Tele extends OpMode
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
         cap = hardwareMap.get(DcMotor.class, "cap");
+        lIntake = hardwareMap.get(DcMotor.class, "lIntake");
+        rIntake = hardwareMap.get(DcMotor.class, "rIntake");
 
         lf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.FORWARD);
@@ -72,6 +81,9 @@ public class Tele extends OpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         grabber.setDirection(DcMotorSimple.Direction.FORWARD);
+
+        lIntake.setDirection(DcMotorSimple.Direction.FORWARD);
+        rIntake.setDirection(DcMotorSimple.Direction.FORWARD);
 
         telemetry.addData("Status", "Initialized");
     }
@@ -98,33 +110,33 @@ public class Tele extends OpMode
     public void loop() {
 
 
-         //lfA = 0.991 - adjust;
-         //lbA = 0.991 - adjust;
-         //rfA = 1.0;
-         //rbA = 1.0;//0.998;
+        //lfA = 0.991 - adjust;
+        //lbA = 0.991 - adjust;
+        //rfA = 1.0;
+        //rbA = 1.0;//0.998;
 
 
 //newest update
-        if (gamepad1.left_bumper){
+        if (gamepad1.left_bumper) {
             lfPower = STRAFE_SPEED;
             lbPower = -STRAFE_SPEED;
             rfPower = -STRAFE_SPEED;
             rbPower = STRAFE_SPEED;
-        } else if (gamepad1.right_bumper){
+        } else if (gamepad1.right_bumper) {
             lfPower = -STRAFE_SPEED;
             lbPower = STRAFE_SPEED;
             rfPower = STRAFE_SPEED;
             rbPower = -STRAFE_SPEED;
-        } else if(gamepad1.right_trigger>0.25) {
-            lfPower = gamepad1.left_stick_y/2;
-            lbPower = gamepad1.left_stick_y/2;
-            rfPower = gamepad1.right_stick_y/2;
-            rbPower = gamepad1.right_stick_y/2;
-        } else if(gamepad1.left_trigger>0.25){
-            lfPower = gamepad1.left_stick_y/5;
-            lbPower = gamepad1.left_stick_y/5;
-            rfPower = gamepad1.right_stick_y/5;
-            rbPower = gamepad1.right_stick_y/5;
+        } else if (gamepad1.right_trigger > 0.25) {
+            lfPower = gamepad1.left_stick_y / 2;
+            lbPower = gamepad1.left_stick_y / 2;
+            rfPower = gamepad1.right_stick_y / 2;
+            rbPower = gamepad1.right_stick_y / 2;
+        } else if (gamepad1.left_trigger > 0.25) {
+            lfPower = gamepad1.left_stick_y / 5;
+            lbPower = gamepad1.left_stick_y / 5;
+            rfPower = gamepad1.right_stick_y / 5;
+            rbPower = gamepad1.right_stick_y / 5;
         } else {
             lfPower = gamepad1.left_stick_y;
             lbPower = gamepad1.left_stick_y;
@@ -137,21 +149,41 @@ public class Tele extends OpMode
         rf.setPower(rfPower);//*rfA);
         rb.setPower(rbPower);//*rbA);
 
-        if(gamepad1.dpad_up){
+        if (gamepad1.dpad_up) {
             grabber.setPower(.45);
-        } else if(gamepad1.dpad_down){
+        } else if (gamepad1.dpad_down) {
             grabber.setPower(-.45);
-        } else{
+        } else {
             grabber.setPower(0);
         }
 
-        if(gamepad1.a){
+        if (gamepad1.a) {
             cap.setPower(.35);
-        } else if(gamepad1.b){
+        } else if (gamepad1.b) {
             cap.setPower(-.35);
         } else {
             cap.setPower(0);
         }
+
+        if (gamepad2.x) {
+            rIntake.setPower(0.75);
+            lIntake.setPower(0.75);
+        } else if (gamepad2.b) {
+            rIntake.setPower(-0.75);
+            lIntake.setPower(-0.75);
+        } else if(gamepad2.left_trigger>0) {
+            rIntake.setPower(gamepad2.left_trigger);
+            lIntake.setPower(gamepad2.left_trigger);
+        } else if (gamepad2.right_trigger>0){
+            rIntake.setPower(-gamepad2.right_trigger);
+            lIntake.setPower(-gamepad2.right_trigger);
+        }else{
+            rIntake.setPower(0);
+            lIntake.setPower(0);
+        }
+
+
+
 
         /*
         if(gamepad1.a){
