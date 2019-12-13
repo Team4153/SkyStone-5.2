@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 
@@ -15,6 +16,10 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor  rf   = null;
     public DcMotor  rb   = null;
     public DcMotor grabber = null;
+    public Servo lPlatform = null;
+    public Servo rPlatform = null;
+    public DcMotor lIntake = null;
+    public DcMotor rIntake = null;
 
     private static final double adjust = 0.4999999;
     private static final double lfA = 0.991  - adjust;
@@ -75,6 +80,18 @@ public abstract class Hardware extends LinearOpMode
         grabber.setDirection(DcMotorSimple.Direction.REVERSE);
         grabber.setPower(0);
 
+        lPlatform = hardwareMap.get(Servo.class, "lPlatform");
+
+        rPlatform = hardwareMap.get(Servo.class, "rPlatform");
+
+        lIntake  = hwMap.get(DcMotor.class, "lIntake");
+        lIntake.setPower(0);
+
+        rIntake  = hwMap.get(DcMotor.class, "rIntake");
+        rIntake.setPower(0);
+
+
+
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
@@ -101,6 +118,14 @@ public abstract class Hardware extends LinearOpMode
         }
         sleep((long)(100*delay));
     }
+
+    public void say(String title, String message){
+        telemetry.addData(title, message);
+        telemetry.update();
+    } public void say(String title, double value){
+        telemetry.addData(title, value);
+        telemetry.update();
+}
 
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower);// * lfA);

@@ -22,7 +22,8 @@ public class Tele extends OpMode
     private DcMotor cap = null;
     private DcMotor lIntake = null;
     private DcMotor rIntake = null;
-    //private Servo
+    private Servo lPlatform = null;
+    private Servo rPlatform = null;
 
     double lfPower=0;
     double lbPower=0;
@@ -64,6 +65,8 @@ public class Tele extends OpMode
         cap = hardwareMap.get(DcMotor.class, "cap");
         lIntake = hardwareMap.get(DcMotor.class, "lIntake");
         rIntake = hardwareMap.get(DcMotor.class, "rIntake");
+        lPlatform = hardwareMap.get(Servo.class, "lPlatform");
+        rPlatform = hardwareMap.get(Servo.class, "rPlatform");
 
         lf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.FORWARD);
@@ -158,9 +161,9 @@ public class Tele extends OpMode
         }
 
         if (gamepad1.a) {
-            cap.setPower(.35);
+            cap.setPower(.5);
         } else if (gamepad1.b) {
-            cap.setPower(-.35);
+            cap.setPower(-.5);
         } else {
             cap.setPower(0);
         }
@@ -182,6 +185,25 @@ public class Tele extends OpMode
             lIntake.setPower(0);
         }
 
+        if (gamepad2.left_bumper){
+            lPlatform.setPosition(0.9);
+            rPlatform.setPosition(0.75);
+        }
+
+        if (gamepad2.right_bumper) {
+            lPlatform.setPosition(0.2);
+            rPlatform.setPosition(1);
+        }
+       /* while(gamepad2.left_trigger >= 0.1){
+            int x = 0;
+            lplatform.setPosition(x);
+            x += 0.05;
+        }
+        while(gamepad2.right_trigger >= 0.1){
+            int x = 0;
+            lplatform.setPosition(x);
+            x -= 0.05;
+        }*/
 
 
 

@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Loading zone auto")
 //@Disabled
-public class LoadingZoneAuto extends Hardware {
+public class LoadingZoneRed extends Hardware {
     //private Hardware         robot   = new Hardware();
 
     //make local stuff
@@ -23,6 +23,15 @@ public class LoadingZoneAuto extends Hardware {
         telemetry.update();
         //run stuff
 
+        encoderDrive(4,4);
+        lIntake.setPower(0.8);
+        rIntake.setPower(0.8);
+        sleep(500);
+    }
+}
+
+
+/*
 
         reverseDrive(2.25,2.25);
         dropGrab();
@@ -31,7 +40,4 @@ public class LoadingZoneAuto extends Hardware {
         reverseDrive(4.5,4.5);
         liftGrab();
         reverseDrive(-1,-1);
-
-
-    }
-}
+ */
