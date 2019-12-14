@@ -16,7 +16,6 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor  lb   = null;
     public DcMotor  rf   = null;
     public DcMotor  rb   = null;
-    public DcMotor grabber = null;
     public Servo lPlatform = null;
     public Servo rPlatform = null;
     public DcMotor lIntake = null;
@@ -78,10 +77,6 @@ public abstract class Hardware extends LinearOpMode
         rb  = hwMap.get(DcMotor.class, "rb");
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setPower(0);
-
-        grabber = hardwareMap.get(DcMotor.class, "grabber");
-        grabber.setDirection(DcMotorSimple.Direction.REVERSE);
-        grabber.setPower(0);
 
         lPlatform = hardwareMap.get(Servo.class, "lPlatform");
 
@@ -403,18 +398,6 @@ public abstract class Hardware extends LinearOpMode
             encoderDrive(-target * 2, target * 2); //adjusted
         }
         //sleep(500);
-    }
-
-    public void dropGrab(){
-        grabber.setPower(.45);
-        sleep(500);
-        grabber.setPower(0);
-    }
-
-    public void liftGrab() {
-        grabber.setPower(-.5);
-        sleep(500);
-        grabber.setPower(0);
     }
 
     public void reverseDrive(double lFeet, double rFeet){
