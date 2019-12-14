@@ -15,16 +15,24 @@ public class BuildingZoneRed extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
+        addDelay();
 
         waitForStart();
         //start with front on the wall
-        encoderDrive(-4, -4, .7);
+
+        encoderDrive(-3.8, -3.8, .7);
         lPlatform.setPosition(0.9);
         rPlatform.setPosition(0.75);
-        encoderDrive(3.8,3.8,0.7);
+        sleep(1150);
+        encoderDrive(3.7,3.7,0.7);
+        sleep(200);
         lPlatform.setPosition(0.2);
         rPlatform.setPosition(1);
-        encoderStrafe(4,RIGHT);
+        sleep(500);
+        encoderStrafe(10,RIGHT);
+        encoderDrive(-1,-1);
+        encoderStrafe(5,LEFT);
+        encoderStrafe(5,RIGHT);
 
         }
     }

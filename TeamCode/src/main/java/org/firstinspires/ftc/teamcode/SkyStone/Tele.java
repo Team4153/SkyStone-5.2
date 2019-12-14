@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -24,6 +25,8 @@ public class Tele extends OpMode
     private DcMotor rIntake = null;
     private Servo lPlatform = null;
     private Servo rPlatform = null;
+    private Servo swivel = null;
+    private CRServo clamp = null;
 
     double lfPower=0;
     double lbPower=0;
@@ -67,6 +70,8 @@ public class Tele extends OpMode
         rIntake = hardwareMap.get(DcMotor.class, "rIntake");
         lPlatform = hardwareMap.get(Servo.class, "lPlatform");
         rPlatform = hardwareMap.get(Servo.class, "rPlatform");
+        swivel = hardwareMap.get(Servo.class, "swivel");
+        clamp = hardwareMap.get(CRServo.class, "clamp");
 
         lf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.FORWARD);
@@ -152,9 +157,9 @@ public class Tele extends OpMode
         rf.setPower(rfPower);//*rfA);
         rb.setPower(rbPower);//*rbA);
 
-        if (gamepad1.dpad_up) {
+        if (gamepad2.dpad_up) {
             grabber.setPower(.45);
-        } else if (gamepad1.dpad_down) {
+        } else if (gamepad2.dpad_down) {
             grabber.setPower(-.45);
         } else {
             grabber.setPower(0);
@@ -174,9 +179,9 @@ public class Tele extends OpMode
         } else if (gamepad2.b) {
             rIntake.setPower(-0.75);
             lIntake.setPower(-0.75);
-        } else if(gamepad2.left_trigger>0) {
-            rIntake.setPower(gamepad2.left_trigger);
-            lIntake.setPower(gamepad2.left_trigger);
+        } if(gamepad2.left_trigger>0) {
+            rIntake.setPower(gamepad2.left_trigger/2);
+            lIntake.setPower(gamepad2.left_trigger/2);
         } else if (gamepad2.right_trigger>0){
             rIntake.setPower(-gamepad2.right_trigger);
             lIntake.setPower(-gamepad2.right_trigger);
@@ -191,8 +196,22 @@ public class Tele extends OpMode
         }
 
         if (gamepad2.right_bumper) {
-            lPlatform.setPosition(0.2);
+            lPlatform.setPosition(0.5);
             rPlatform.setPosition(1);
+        }
+
+        if (gamepad1.dpad_down){
+            clamp.setPower(0.5);
+        } else if (gamepad1.dpad_up) {
+            clamp.setPower(-0.5);
+        } else {
+            clamp.setPower(0);
+        }
+
+        if (gamepad1.dpad_left){
+            swivel.setPosition(0);
+        } else if (gamepad1.dpad_right){
+            swivel.setPosition(1);
         }
        /* while(gamepad2.left_trigger >= 0.1){
             int x = 0;

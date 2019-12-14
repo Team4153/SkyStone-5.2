@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,6 +21,8 @@ public abstract class Hardware extends LinearOpMode
     public Servo rPlatform = null;
     public DcMotor lIntake = null;
     public DcMotor rIntake = null;
+    public Servo swivel = null;
+    public CRServo clamp = null;
 
     private static final double adjust = 0.4999999;
     private static final double lfA = 0.991  - adjust;
@@ -90,7 +93,9 @@ public abstract class Hardware extends LinearOpMode
         rIntake  = hwMap.get(DcMotor.class, "rIntake");
         rIntake.setPower(0);
 
+        swivel = hardwareMap.get(Servo.class, "swivel");
 
+        clamp = hardwareMap.get(CRServo.class, "clamp");
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

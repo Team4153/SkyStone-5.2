@@ -19,14 +19,22 @@ public class LoadingZoneRed extends Hardware {
         telemetry.update();
 
         waitForStart();
-        telemetry.addData("Status","Running");
-        telemetry.update();
-        //run stuff
 
         encoderDrive(4,4);
         lIntake.setPower(0.8);
         rIntake.setPower(0.8);
         sleep(500);
+        lIntake.setPower(0);
+        rIntake.setPower(0);
+        encoderDrive(3.8,3.8);
+        turn(90,RIGHT);
+        encoderDrive(5,5);
+        lIntake.setPower(-0.8);
+        rIntake.setPower(-0.8);
+        sleep(500);
+        lIntake.setPower(0);
+        rIntake.setPower(0);
+        encoderDrive(-1,-1);
     }
 }
 
