@@ -25,7 +25,7 @@ public class WhenItBreaks extends Hardware {
             } else if(gamepad1.b){
                 run = 1;
             } else if(gamepad1.x){
-                run = 3;
+                run = 2;
             }
             telemetry.addData("--Test--",choices[run]);
             telemetry.update();
@@ -37,7 +37,7 @@ public class WhenItBreaks extends Hardware {
             distanceCalibration();
         } else if(choices[run] == "time"){
             timeCalibration();
-        } else if(choices[run] == "gayFix"){
+        } else if(choices[run] == "gay"){
             gayFix();
         }
 
