@@ -1,0 +1,49 @@
+they just pulled a REBOOT (aka they tore the entire thing apart and rebuilt)
+you need to make a teleOp from the ground up with 2 drive motors (one on the left, other on the right)
+
+
+--ASK_BUILDERS--
+
+WHERE THE motors go [/]
+
+--PHONE--
+
+1
+rev 40
+right
+
+3
+rev 40
+left
+
+++OUTPUT++
+nothing...
+
+
+--HARDWARE--
+
+
+--NEW_TELE--
+
+    private DcMotor left = null;
+    private DcMotor right = null;
+
+ 
+        left = hardwareMap.get(DcMotor.class, "left");
+        right  = hardwareMap.get(DcMotor.class, "right");
+
+  left.setDirection(DcMotor.Direction.forward);
+        right.setDirection(DcMotor.Direction.reverse);
+
+ left.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+        right.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.FLOAT);
+
+        left.setMode(DcMotor.RunMode.RUN_USING_ENCODER);  //delete
+        right.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+left.setPower(gamepad1.left_stick_y);
+right.setPower(gamepad1.right_stick_y);
+
++++++console+++++
+
+YAY! LOOKS GOOD!
