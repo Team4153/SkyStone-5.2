@@ -20,19 +20,19 @@ public class BuildingZoneRed extends Hardware {
         waitForStart();
         //start with front on the wall
 
-        encoderDrive(-3.8, -3.8, .7);
+        encoderDrive(-3.8, -3.8, .7);//forward
         lPlatform.setPosition(0.9);
-        rPlatform.setPosition(0.75);
-        sleep(1150);
-        encoderDrive(3.7,3.7,0.7);
-        sleep(200);
+        rPlatform.setPosition(0.75);//drop the platform grabbers
+        sleep(1300);//wait
+        encoderDrive(3.7,3.7,0.7);//go back
+        sleep(200);//wait
         lPlatform.setPosition(0.2);
-        rPlatform.setPosition(1);
-        sleep(500);
-        encoderStrafe(10,RIGHT);
-        encoderDrive(-1,-1);
-        encoderStrafe(5,LEFT);
-        encoderStrafe(5,RIGHT);
+        rPlatform.setPosition(1);//raise grabbers
+        sleep(500);//wait
+        encoderStrafe(10,RIGHT);//go right
+        encoderDrive(-1,-1);//go back
+        encoderStrafe(5,LEFT);//go left
+        encoderStrafe(5,RIGHT);//go right
 
         }
     }

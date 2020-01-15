@@ -106,6 +106,7 @@ public abstract class Hardware extends LinearOpMode
                 while (gamepad1.a){
                     telemetry.addData("delay",delay);
                     telemetry.update();
+                    sleep(10);
                 }
             }
             else if(gamepad1.b){
@@ -113,6 +114,7 @@ public abstract class Hardware extends LinearOpMode
                 while (gamepad1.b){
                     telemetry.addData("delay",delay);
                     telemetry.update();
+                    sleep(10);
                 }
             }
         }

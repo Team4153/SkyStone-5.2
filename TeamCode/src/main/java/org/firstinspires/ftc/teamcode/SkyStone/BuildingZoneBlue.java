@@ -23,7 +23,7 @@ public class BuildingZoneBlue extends Hardware {
         lPlatform.setPosition(0.9);
         rPlatform.setPosition(0.75);
         sleep(1150);
-        encoderDrive(3.7,3.7,0.7);
+        encoderDrive(3.7,3.7,0.55);
         sleep(200);
         lPlatform.setPosition(0.2);
         rPlatform.setPosition(1);
