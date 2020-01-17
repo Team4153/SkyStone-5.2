@@ -33,6 +33,9 @@ public class Tele extends OpMode
     double rfPower=0;
     double rbPower=0;
 
+    boolean clampToggleDown = false;
+    boolean clampToggleUp = false;
+
 
 
     /*
@@ -177,19 +180,33 @@ public class Tele extends OpMode
             rPlatform.setPosition(1);
         }
 
-        if (gamepad1.dpad_down){
-            clamp.setPower(0.5);
-        } else if (gamepad1.dpad_up) {
-            clamp.setPower(-0.5);
-        } else {
-            clamp.setPower(0);
+        if (gamepad1.dpad_down) {
+            clampToggleDown = !clampToggleDown;
+            while(gamepad1.dpad_down) {
+                if (clampToggleDown) {
+                    clamp.setPower(0.5);
+                } else {
+                    clamp.setPower(0);
+                }
+            }
+        }else if (gamepad1.dpad_up) {
+            clampToggleUp=!clampToggleUp;
+            while(gamepad1.dpad_up){
+                if (clampToggleUp){
+                    clamp.setPower(-0.5);
+                }else{
+                    clamp.setPower(0);
+                }
+            }
         }
+
 
         if (gamepad1.dpad_left){
             swivel.setPosition(0);
         } else if (gamepad1.dpad_right){
             swivel.setPosition(1);
         }
+
        /* while(gamepad2.left_trigger >= 0.1){
             int x = 0;
             lplatform.setPosition(x);
@@ -232,3 +249,5 @@ public class Tele extends OpMode
     }
 
 }
+
+//hullo
