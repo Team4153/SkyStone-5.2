@@ -27,6 +27,7 @@ public class Tele extends OpMode
     private Servo rPlatform = null;
     private Servo swivel = null;
     private CRServo clamp = null;
+    private Servo spank = null;
 
     double lfPower=0;
     double lbPower=0;
@@ -47,11 +48,12 @@ public class Tele extends OpMode
 
     double adjust = 0.499999;
 
+    /*
     double lfA = 0.991 - adjust;
     double lbA = 0.991 - adjust;
     double rfA = 1.0;
     double rbA = 1.0;//0.998;
-
+    //*/
 
     private static double STRAFE_SPEED = 0.5;
 
@@ -74,6 +76,7 @@ public class Tele extends OpMode
         rPlatform = hardwareMap.get(Servo.class, "rPlatform");
         swivel = hardwareMap.get(Servo.class, "swivel");
         clamp = hardwareMap.get(CRServo.class, "clamp");
+        spank = hardwareMap.get(Servo.class, "spank");
 
         lf.setDirection(DcMotor.Direction.FORWARD);
         lb.setDirection(DcMotor.Direction.FORWARD);
@@ -140,11 +143,13 @@ public class Tele extends OpMode
             lbPower = gamepad1.left_stick_y / 2;
             rfPower = gamepad1.right_stick_y / 2;
             rbPower = gamepad1.right_stick_y / 2;
+            telemetry.addData("drive","slow 1");
         } else if (gamepad1.left_trigger > 0.25) {
             lfPower = gamepad1.left_stick_y / 5;
             lbPower = gamepad1.left_stick_y / 5;
             rfPower = gamepad1.right_stick_y / 5;
             rbPower = gamepad1.right_stick_y / 5;
+            telemetry.addData("drive","slow 2");
         } else {
             lfPower = gamepad1.left_stick_y;
             lbPower = gamepad1.left_stick_y;
@@ -162,9 +167,11 @@ public class Tele extends OpMode
         if(gamepad2.left_trigger>0) {                 //intake out
             rIntake.setPower(gamepad2.left_trigger/3);
             lIntake.setPower(gamepad2.left_trigger/3);
+            telemetry.addData("intake","out");
         } else if (gamepad2.right_trigger>0){           //intake in
             rIntake.setPower(-gamepad2.right_trigger);
             lIntake.setPower(-gamepad2.right_trigger);
+            telemetry.addData("intake","in");
         }else{
             rIntake.setPower(0);
             lIntake.setPower(0);
@@ -173,27 +180,33 @@ public class Tele extends OpMode
         if (gamepad2.left_bumper){          //platform up
             lPlatform.setPosition(0.9);
             rPlatform.setPosition(0.75);
+            telemetry.addData("platform","up");
         }
 
         if (gamepad2.right_bumper) {        //platform down
             lPlatform.setPosition(0.5);
             rPlatform.setPosition(1);
+            telemetry.addData("platform","down");
         }
 
         if (gamepad1.dpad_down) {
+            clampToggleUp = false;
             clampToggleDown = !clampToggleDown;
             while(gamepad1.dpad_down) {
                 if (clampToggleDown) {
                     clamp.setPower(0.5);
+                    telemetry.addData("clamp","down");
                 } else {
                     clamp.setPower(0);
                 }
             }
         }else if (gamepad1.dpad_up) {
+            clampToggleDown = false;
             clampToggleUp=!clampToggleUp;
             while(gamepad1.dpad_up){
                 if (clampToggleUp){
                     clamp.setPower(-0.5);
+                    telemetry.addData("clamp","up");
                 }else{
                     clamp.setPower(0);
                 }
@@ -203,9 +216,21 @@ public class Tele extends OpMode
 
         if (gamepad1.dpad_left){
             swivel.setPosition(0);
+            telemetry.addData("swivel","1");
         } else if (gamepad1.dpad_right){
             swivel.setPosition(1);
+            telemetry.addData("swivel","2");
         }
+
+        spank.setPosition(gamepad2.right_stick_y);
+        telemetry.addData("spank",spank.getPosition());
+        telemetry.update();
+        /*
+        if(gamepad1.a){
+            spank.setPosition(0);
+        } else if(gamepad1.b){
+            spank.setPosition(0.6);
+        }//*/
 
        /* while(gamepad2.left_trigger >= 0.1){
             int x = 0;
@@ -237,8 +262,6 @@ public class Tele extends OpMode
         }//*/
 
 
-
-
     }
 
     /*
@@ -249,5 +272,3 @@ public class Tele extends OpMode
     }
 
 }
-
-//hullo
