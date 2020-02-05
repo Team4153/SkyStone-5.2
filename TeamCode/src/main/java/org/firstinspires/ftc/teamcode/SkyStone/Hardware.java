@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -22,6 +23,7 @@ public abstract class Hardware extends LinearOpMode
     public DcMotor rIntake = null;
     public Servo swivel = null;
     public CRServo clamp = null;
+    public ModernRoboticsI2cColorSensor colorSensor = null;
 
     private static final double adjust = 0.4999999;
     private static final double lfA = 0.991  - adjust;
@@ -91,6 +93,8 @@ public abstract class Hardware extends LinearOpMode
         swivel = hardwareMap.get(Servo.class, "swivel");
 
         clamp = hardwareMap.get(CRServo.class, "clamp");
+
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);

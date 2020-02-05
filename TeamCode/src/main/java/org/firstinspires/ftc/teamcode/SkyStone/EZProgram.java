@@ -1,16 +1,12 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
-import com.qualcomm.robotcore.hardware.ColorSensor;
-import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
+
+import static java.lang.Thread.sleep;
 
 @TeleOp(name="EZProgram that does stuff")
 //@Disabled
@@ -25,11 +21,11 @@ public class EZProgram extends OpMode
     boolean Classy = true;
     //*/
 
-    private ColorSensor getTHATskystone = null;
+    private ModernRoboticsI2cColorSensor colorSensor = null;
 
 
-    int yMax[] = {-1,-1,-1}; //rgb values {red, green, blue}
-    int yMin[] = {900000000,900000000,900000000};
+    int yellowRGBMax[] = {-1,-1,-1}; //rgb values {red, green, blue}
+    int yellowRGBMin[] = {900000000,900000000,900000000};
 
 
     int red, green, blue;
@@ -40,7 +36,7 @@ public class EZProgram extends OpMode
     @Override
     public void init() {
 
-        getTHATskystone = hardwareMap.get(ColorSensor.class, "getTHATskystone");
+        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
         telemetry.addData("Controlls:","rt: swap opModes, lt: init");
         telemetry.update();
@@ -135,24 +131,30 @@ public class EZProgram extends OpMode
         }
         //*/
 
-        red = getTHATskystone.red();
-        green = getTHATskystone.green();
-        blue = getTHATskystone.blue();
+        red = colorSensor.red();
+        green = colorSensor.green();
+        blue = colorSensor.blue();
 
         if(gamepad1.a){
-            telemetry.addData("red min",yMin[0]);
-            telemetry.addData("green min",yMin[1]);
-            telemetry.addData("blue min",yMin[2]);
+            telemetry.addData("red min", yellowRGBMin[0]);
+            telemetry.addData("green min", yellowRGBMin[1]);
+            telemetry.addData("blue min", yellowRGBMin[2]);
 
-            telemetry.addData("red max",yMax[0]);
-            telemetry.addData("green max", yMax[1]);
-            telemetry.addData("blue max",yMax[2]);
+            telemetry.addData("red max", yellowRGBMax[0]);
+            telemetry.addData("green max", yellowRGBMax[1]);
+            telemetry.addData("blue max", yellowRGBMax[2]);
 
         }
         else {
             telemetry.addData("red", red);
             telemetry.addData("green", green);
             telemetry.addData("blue", blue);
+        }
+
+        if (gamepad1.b){
+            colorSensor.enableLed(true);
+        } else if(gamepad1.x){
+            colorSensor.enableLed(false);
         }
         telemetry.update();
         /*
@@ -163,23 +165,23 @@ public class EZProgram extends OpMode
         * find max for black
         * */
 
-        if(red > yMax[0]){
-            yMax[0] = red;
+        if(red > yellowRGBMax[0]){
+            yellowRGBMax[0] = red;
         }
-        if(green > yMax[1]){
-            yMax[1] = green;
+        if(green > yellowRGBMax[1]){
+            yellowRGBMax[1] = green;
         }
-        if(blue > yMax[2]){
-            yMax[2] = blue;
+        if(blue > yellowRGBMax[2]){
+            yellowRGBMax[2] = blue;
         }
-        if(red < yMin[0]){
-            yMin[0] = red;
+        if(red < yellowRGBMin[0]){
+            yellowRGBMin[0] = red;
         }
-        if(green < yMin[1]){
-            yMin[1] = green;
+        if(green < yellowRGBMin[1]){
+            yellowRGBMin[1] = green;
         }
-        if(blue < yMin[2]){
-            yMin[2] = blue;
+        if(blue < yellowRGBMin[2]){
+            yellowRGBMin[2] = blue;
         }
 
     }
@@ -189,17 +191,16 @@ public class EZProgram extends OpMode
      */
     @Override
     public void stop() {
+        telemetry.addData("red min", yellowRGBMin[0]);
+        telemetry.addData("green min", yellowRGBMin[1]);
+        telemetry.addData("blue min", yellowRGBMin[2]);
+
+        telemetry.addData("red max", yellowRGBMax[0]);
+        telemetry.addData("green max", yellowRGBMax[1]);
+        telemetry.addData("blue max", yellowRGBMax[2]);
+        telemetry.update();
 
     }
 
 }
 
-
-/*
-*
-*  5 9 7 6 8 7 7 7 6 6
-*  -------------------
-*  0 1 2 3 4 5 6 7 8 9
-*
-*
-* */

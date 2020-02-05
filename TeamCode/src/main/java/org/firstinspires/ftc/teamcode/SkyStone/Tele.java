@@ -78,8 +78,8 @@ public class Tele extends OpMode
         clamp = hardwareMap.get(CRServo.class, "clamp");
         spank = hardwareMap.get(Servo.class, "spank");
 
-        lf.setDirection(DcMotor.Direction.FORWARD);
-        lb.setDirection(DcMotor.Direction.FORWARD);
+        lf.setDirection(DcMotor.Direction.REVERSE);
+        lb.setDirection(DcMotor.Direction.REVERSE);
         rf.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.REVERSE);
 

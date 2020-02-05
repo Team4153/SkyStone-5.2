@@ -21,6 +21,7 @@ public class LoadingZoneRed extends Hardware {
         waitForStart();
 
         encoderDrive(4,4);
+
         lIntake.setPower(0.8);
         rIntake.setPower(0.8);
         sleep(500);
