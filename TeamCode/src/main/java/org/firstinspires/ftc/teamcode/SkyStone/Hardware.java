@@ -433,5 +433,21 @@ public abstract class Hardware extends LinearOpMode
 
     }
 
+    public void intake (){
+        lIntake.setPower(0.8);
+        rIntake.setPower(0.8);
+        sleep(500);
+        lIntake.setPower(0);
+        rIntake.setPower(0);
+    }
+
+    public void outtake (){
+        lIntake.setPower(0.8);
+        rIntake.setPower(0.8);
+        sleep(500);
+        lIntake.setPower(0);
+        rIntake.setPower(0);
+    }
+
  }
 

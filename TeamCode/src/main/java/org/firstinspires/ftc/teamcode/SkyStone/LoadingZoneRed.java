@@ -1,6 +1,7 @@
 
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
 @Autonomous(name="Loading zone auto")
@@ -21,7 +22,6 @@ public class LoadingZoneRed extends Hardware {
         waitForStart();
 
         encoderDrive(4,4);
-
         lIntake.setPower(0.8);
         rIntake.setPower(0.8);
         sleep(500);
