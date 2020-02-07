@@ -37,7 +37,7 @@ public class SkystoneRed extends Hardware {
 
         }
 
-        /*
+        /*  /\
         min	    max
         2,0,0; 44,30,4
         9,5,0; 42,28,3
