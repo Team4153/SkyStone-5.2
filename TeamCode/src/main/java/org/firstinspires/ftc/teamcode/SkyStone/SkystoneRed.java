@@ -1,14 +1,11 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear Opmode")
-@Disabled
+@Autonomous(name="SkystoneRed")
+//@Disabled
 public class SkystoneRed extends Hardware {
 
 
@@ -16,23 +13,34 @@ public class SkystoneRed extends Hardware {
     public void runOpMode() {
 
 
+        init(hardwareMap);
         waitForStart();
 
-        //do STUFF
-
+        telemetry.addData("s","1");
+        telemetry.update();
+        encoderDrive(4,4);
+        telemetry.addData("s","2");
+        telemetry.update();
         int skyStones = 0;
         for(int stonez = 0; stonez < 6; stonez++){
             if(skyStones>=2){
                 break;
             }
-            if(isYellow()){
+            if(isYellow()&& skyStones<=2){
                 encoderStrafe(1,LEFT);
-            } else{
+            } else if (skyStones<=1){
                 skyStones++;
                 intake();
-                goThere(stonez);
+                toBridge(stonez);
                 outtake();
-                goBack(stonez);
+                fromBridge(stonez);
+
+            } else {
+                skyStones++;
+                intake();
+                toBridge(stonez + 3);
+                outtake();
+                encoderStrafe(1,LEFT);
             }
 
         }
@@ -56,15 +64,11 @@ public class SkystoneRed extends Hardware {
                 return (false);
             }
         }
-        void goBack(int stonez){
-            double feetToBridge = 4;
-            double stoneLength = 1;
-            encoderStrafe(stoneLength * stonez + feetToBridge, LEFT);
+        void fromBridge(int stonez){
+            encoderStrafe(STONE_LENGTH * (stonez + 3) + FEET_TO_BRIDGE, LEFT);
         }
-        void goThere(int stonez){
-            double feetToBridge = 4;
-            double stoneLength = 1;
-            encoderStrafe(stoneLength * stonez + feetToBridge, RIGHT);
+        void toBridge(int stonez){
+            encoderStrafe(STONE_LENGTH * stonez + FEET_TO_BRIDGE, RIGHT);
         }
 
     }

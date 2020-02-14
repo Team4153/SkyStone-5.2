@@ -16,27 +16,18 @@ public class Tele extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor lf= null;
-    private DcMotor lb = null;
+    private DcMotor lb = null;  //TODO: take out not needed functions
     private DcMotor rf = null;
     private DcMotor rb = null;
-    private DcMotor grabber = null;
-    private DcMotor cap = null;
     private DcMotor lIntake = null;
     private DcMotor rIntake = null;
     private Servo lPlatform = null;
     private Servo rPlatform = null;
-    private Servo swivel = null;
-    private CRServo clamp = null;
-    private Servo spank = null;
 
     double lfPower=0;
     double lbPower=0;
     double rfPower=0;
     double rbPower=0;
-
-    boolean clampToggleDown = false;
-    boolean clampToggleUp = false;
-
 
 
     /*
@@ -45,8 +36,6 @@ public class Tele extends OpMode
     private static final double rfA = 1.0;
     private static final double rbA = 0.998;
     */
-
-    double adjust = 0.499999;
 
     /*
     double lfA = 0.991 - adjust;
@@ -69,14 +58,10 @@ public class Tele extends OpMode
         lb  = hardwareMap.get(DcMotor.class, "lb");
         rf = hardwareMap.get(DcMotor.class, "rf");
         rb = hardwareMap.get(DcMotor.class, "rb");
-        cap = hardwareMap.get(DcMotor.class, "cap");
         lIntake = hardwareMap.get(DcMotor.class, "lIntake");
         rIntake = hardwareMap.get(DcMotor.class, "rIntake");
         lPlatform = hardwareMap.get(Servo.class, "lPlatform");
         rPlatform = hardwareMap.get(Servo.class, "rPlatform");
-        swivel = hardwareMap.get(Servo.class, "swivel");
-        clamp = hardwareMap.get(CRServo.class, "clamp");
-        spank = hardwareMap.get(Servo.class, "spank");
 
         lf.setDirection(DcMotor.Direction.REVERSE);
         lb.setDirection(DcMotor.Direction.REVERSE);
@@ -162,7 +147,6 @@ public class Tele extends OpMode
         rf.setPower(rfPower);//*rfA);
         rb.setPower(rbPower);//*rbA);
 
-        cap.setPower(gamepad2.left_stick_y/1.5);
 
         if(gamepad2.left_trigger>0) {                 //intake out
             rIntake.setPower(gamepad2.left_trigger/3);
@@ -189,42 +173,7 @@ public class Tele extends OpMode
             telemetry.addData("platform","down");
         }
 
-        if (gamepad1.dpad_down) {
-            clampToggleUp = false;
-            clampToggleDown = !clampToggleDown;
-            while(gamepad1.dpad_down) {
-                if (clampToggleDown) {
-                    clamp.setPower(0.5);
-                    telemetry.addData("clamp","down");
-                } else {
-                    clamp.setPower(0);
-                }
-            }
-        }else if (gamepad1.dpad_up) {
-            clampToggleDown = false;
-            clampToggleUp=!clampToggleUp;
-            while(gamepad1.dpad_up){
-                if (clampToggleUp){
-                    clamp.setPower(-0.5);
-                    telemetry.addData("clamp","up");
-                }else{
-                    clamp.setPower(0);
-                }
-            }
-        }
 
-
-        if (gamepad1.dpad_left){
-            swivel.setPosition(0);
-            telemetry.addData("swivel","1");
-        } else if (gamepad1.dpad_right){
-            swivel.setPosition(1);
-            telemetry.addData("swivel","2");
-        }
-
-        spank.setPosition(gamepad2.right_stick_y);
-        telemetry.addData("spank",spank.getPosition());
-        telemetry.update();
         /*
         if(gamepad1.a){
             spank.setPosition(0);

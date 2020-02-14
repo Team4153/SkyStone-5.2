@@ -1,4 +1,3 @@
-
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
@@ -21,10 +20,10 @@ public abstract class Hardware extends LinearOpMode
     public Servo rPlatform = null;
     public DcMotor lIntake = null;
     public DcMotor rIntake = null;
-    public Servo swivel = null;
-    public CRServo clamp = null;
     public ModernRoboticsI2cColorSensor colorSensor = null;
 
+    public static final double FEET_TO_BRIDGE = 4;
+    public static final double STONE_LENGTH = 1;
     private static final double adjust = 0.4999999;
     private static final double lfA = 0.991  - adjust;
     private static final double lbA = 0.991 - adjust;
@@ -63,20 +62,22 @@ public abstract class Hardware extends LinearOpMode
         hwMap = ahwMap;
 
         lf  = hwMap.get(DcMotor.class, "lf");
-        lf.setDirection(DcMotor.Direction.REVERSE);
+        //lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setPower(0);
 
         lb  = hwMap.get(DcMotor.class, "lb");
-        lb.setDirection(DcMotor.Direction.REVERSE);
+        //lb.setDirection(DcMotor.Direction.REVERSE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setPower(0);
 
         rf  = hwMap.get(DcMotor.class, "rf");
+        //rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setPower(0);
 
         rb  = hwMap.get(DcMotor.class, "rb");
+        //rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setPower(0);
 
@@ -89,10 +90,6 @@ public abstract class Hardware extends LinearOpMode
 
         rIntake  = hwMap.get(DcMotor.class, "rIntake");
         rIntake.setPower(0);
-
-        swivel = hardwareMap.get(Servo.class, "swivel");
-
-        clamp = hardwareMap.get(CRServo.class, "clamp");
 
         colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
 
@@ -163,15 +160,15 @@ public abstract class Hardware extends LinearOpMode
         double ratio;   //power change
         if(Math.abs(lTarget)<Math.abs(rTarget)) {
             ratio = lTarget / rTarget;
-            rSpeed = DRIVE_SPEED;//-ADJUSTMENT;
+            rSpeed = DRIVE_SPEED;
             lSpeed = DRIVE_SPEED * ratio;
         } else if(Math.abs(rTarget)<Math.abs(lTarget)){
             ratio = rTarget / lTarget;
             lSpeed = DRIVE_SPEED;
-            rSpeed = DRIVE_SPEED * ratio;// - ADJUSTMENT;
+            rSpeed = DRIVE_SPEED * ratio;
         } else {
             lSpeed = DRIVE_SPEED;
-            rSpeed = DRIVE_SPEED;// - ADJUSTMENT;
+            rSpeed = DRIVE_SPEED;
         }
 
         lSpeed *= (lFeet<0? -1 : 1);
