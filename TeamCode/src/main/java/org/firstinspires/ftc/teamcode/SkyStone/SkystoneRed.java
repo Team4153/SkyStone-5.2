@@ -16,18 +16,14 @@ public class SkystoneRed extends Hardware {
         init(hardwareMap);
         waitForStart();
 
-        telemetry.addData("s","1");
-        telemetry.update();
-        encoderDrive(4,4);
-        telemetry.addData("s","2");
-        telemetry.update();
+        driveToStack();
         int skyStones = 0;
         for(int stonez = 0; stonez < 6; stonez++){
             if(skyStones>=2){
                 break;
             }
             if(isYellow()&& skyStones<=2){
-                encoderStrafe(1,LEFT);
+                encoderStrafe(STONE_LENGTH,LEFT);
             } else if (skyStones<=1){
                 skyStones++;
                 intake();
@@ -58,7 +54,14 @@ public class SkystoneRed extends Hardware {
 
         }
         boolean isYellow(){
-            if(colorSensor.red() < 46 && colorSensor.red() > 7 && colorSensor.green() >4 && colorSensor.green() < 31 && colorSensor.blue() >0 && colorSensor.blue() <4){
+            sleep(100);
+            telemetry.addData("red",colorSensor.red());
+            telemetry.addData("green",colorSensor.green());
+            telemetry.addData("blue",colorSensor.blue());
+            telemetry.update();
+            int yellowMin[] = {82,49,28};
+            int yellowMax[] = {316,193,100};
+            if(colorSensor.red() < 316 && colorSensor.red() > 82 && colorSensor.green() >49 && colorSensor.green() < 193 && colorSensor.blue() >28 && colorSensor.blue() <100){
                 return (true);
             } else {
                 return (false);
@@ -69,6 +72,18 @@ public class SkystoneRed extends Hardware {
         }
         void toBridge(int stonez){
             encoderStrafe(STONE_LENGTH * stonez + FEET_TO_BRIDGE, RIGHT);
+        }
+
+        void driveToStack(){
+            setP(.3);
+            telemetry.addData("red",colorSensor.red());
+            telemetry.addData("green",colorSensor.green());
+            telemetry.addData("blue",colorSensor.blue());
+            telemetry.update();
+            while (!(colorSensor.red() > 82 || colorSensor.green() > 49 || colorSensor.blue() > 28)){
+                idle();
+            }
+            setP(0);
         }
 
     }

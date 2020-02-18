@@ -16,7 +16,7 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        String[] choices = {"distance","time","gay"};
+        String[] choices = {"distance","time","gayFix","colorMove","eachMotor","rainbow"};
         int run = 0;
 
         while(!opModeIsActive()){
@@ -26,6 +26,10 @@ public class WhenItBreaks extends Hardware {
                 run = 1;
             } else if(gamepad1.x){
                 run = 3;
+            } else if(gamepad1.y){
+                run = 4;
+            } else if(gamepad1.right_bumper){
+                run = 5;
             }
             telemetry.addData("--Test--",choices[run]);
             telemetry.update();
@@ -39,6 +43,13 @@ public class WhenItBreaks extends Hardware {
             timeCalibration();
         } else if(choices[run] == "gayFix"){
             gayFix();
+        } else if(choices[run] == "colorMove"){
+            colorMove();
+        }
+        else if(choices[run] == "eachMotor"){
+            eachMotor();
+        } else if(choices[run] ==  "rainbow"){
+            rainbow();
         }
 
     }
@@ -134,7 +145,7 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("rfA",rfA);
         telemetry.addData("rbA",rbA);
         telemetry.update();
-        sleep(5000);
+        sleep(500000000);
     } //adjusts uneven motor qualities/powers
 
     public void gayFix(){
@@ -150,6 +161,55 @@ public class WhenItBreaks extends Hardware {
         }
     } //is gay
 
+    public void colorMove(){
+        setP(.5,.5,.5,.5);
+        while (!(colorSensor.red() > 5 || colorSensor.blue() > 5 || colorSensor.green() > 5)){
+            idle();
+        }
+        setP(0,0,0,0);
+    }
 
+    public void eachMotor(){
+        while(!gamepad1.a){
+            encoderDrive(2,2,.5,true);
+        }
+    }
+
+    public void instructions(){
+        String instr[] = {"encoderStrafe","encoderDrive","turn"};
+        int index = 0;
+        String instrucion = "";
+        while(opModeIsActive()){
+            if(gamepad1.right_bumper){
+                index++;
+                while (gamepad1.right_bumper){
+                    index = index % instr.length;
+                    instrucion = instr[index];
+                }
+            } else if(gamepad1.left_bumper){
+                index--;
+                while (gamepad1.left_bumper){
+                    index = Math.abs(index) % instr.length;
+                    instrucion = instr[index];
+                }
+            }
+            telemetry.addData("instrucion: ",instrucion);
+            telemetry.update();
+
+            if(gamepad1.right_trigger > 0.1){
+
+            }
+        }
+    }
+
+    public void rainbow(){
+        int runs = 100;
+        int count = 0;
+        while(!gamepad1.a && count < runs) {
+            count++;
+            encoderStrafe(10, LEFT);
+            encoderStrafe(10, RIGHT);
+        }
+    }
 }
 

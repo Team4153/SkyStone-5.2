@@ -16,13 +16,18 @@ public class Tele extends OpMode
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor lf= null;
-    private DcMotor lb = null;  //TODO: take out not needed functions
+    private DcMotor lb = null;
     private DcMotor rf = null;
     private DcMotor rb = null;
     private DcMotor lIntake = null;
     private DcMotor rIntake = null;
     private Servo lPlatform = null;
     private Servo rPlatform = null;
+
+    private static final double lfA = 1;
+    private static final double lbA = 1;
+    private static final double rfA = .8;
+    private static final double rbA = .8;
 
     double lfPower=0;
     double lbPower=0;
@@ -63,8 +68,7 @@ public class Tele extends OpMode
         lPlatform = hardwareMap.get(Servo.class, "lPlatform");
         rPlatform = hardwareMap.get(Servo.class, "rPlatform");
 
-        lf.setDirection(DcMotor.Direction.REVERSE);
-        lb.setDirection(DcMotor.Direction.REVERSE);
+
         rf.setDirection(DcMotor.Direction.REVERSE);
         rb.setDirection(DcMotor.Direction.REVERSE);
 
@@ -142,10 +146,10 @@ public class Tele extends OpMode
             rbPower = gamepad1.right_stick_y;
         }
 
-        lf.setPower(lfPower);//*lfA);
-        lb.setPower(lbPower);//*lbA);
-        rf.setPower(rfPower);//*rfA);
-        rb.setPower(rbPower);//*rbA);
+        lf.setPower(lfPower*lfA);
+        lb.setPower(lbPower*lbA);
+        rf.setPower(rfPower*rfA);
+        rb.setPower(rbPower*rbA);
 
 
         if(gamepad2.left_trigger>0) {                 //intake out

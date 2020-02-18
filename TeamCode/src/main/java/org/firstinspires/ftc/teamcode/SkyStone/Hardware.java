@@ -1,8 +1,11 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import android.graphics.Color;
+
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
+import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -20,15 +23,14 @@ public abstract class Hardware extends LinearOpMode
     public Servo rPlatform = null;
     public DcMotor lIntake = null;
     public DcMotor rIntake = null;
-    public ModernRoboticsI2cColorSensor colorSensor = null;
+    public ColorSensor colorSensor = null;
 
     public static final double FEET_TO_BRIDGE = 4;
-    public static final double STONE_LENGTH = 1;
-    private static final double adjust = 0.4999999;
-    private static final double lfA = 0.991  - adjust;
-    private static final double lbA = 0.991 - adjust;
-    private static final double rfA = 1;
-    private static final double rbA = 1;
+    public static final double STONE_LENGTH = 3;
+    private static final double lfA = 1;//0.8979;
+    private static final double lbA = 1;//0.92;
+    private static final double rfA = .8;//0.91;
+    private static final double rbA = .8;//1;
 
     private static final double     FEET                    = 14.75;    //adjusted
     private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
@@ -62,12 +64,12 @@ public abstract class Hardware extends LinearOpMode
         hwMap = ahwMap;
 
         lf  = hwMap.get(DcMotor.class, "lf");
-        //lf.setDirection(DcMotor.Direction.REVERSE);
+        lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setPower(0);
 
         lb  = hwMap.get(DcMotor.class, "lb");
-        //lb.setDirection(DcMotor.Direction.REVERSE);
+        lb.setDirection(DcMotor.Direction.REVERSE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setPower(0);
 
@@ -91,12 +93,15 @@ public abstract class Hardware extends LinearOpMode
         rIntake  = hwMap.get(DcMotor.class, "rIntake");
         rIntake.setPower(0);
 
-        colorSensor = hardwareMap.get(ModernRoboticsI2cColorSensor.class, "colorSensor");
+        colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
 
+        /*
         lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        */
+
     }
 
     public void addDelay(){
@@ -131,10 +136,13 @@ public abstract class Hardware extends LinearOpMode
 }
 
     public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
-        lf.setPower(lfPower);// * lfA);
-        lb.setPower(lbPower);// * lbA);
-        rf.setPower(rfPower);// * rfA);
-        rb.setPower(rbPower);// * rbA);
+        lf.setPower(lfPower * lfA);
+        lb.setPower(lbPower * lbA);
+        rf.setPower(rfPower * rfA);
+        rb.setPower(rbPower * rbA);
+    }
+    public void setP(double power){
+        setP(power,power,power,power);
     }
 
     public void gayPower(double lfPower, double lbPower, double rfPower, double rbPower){
@@ -193,7 +201,7 @@ public abstract class Hardware extends LinearOpMode
 
 
             while (opModeIsActive() && (
-                    (lf.isBusy() || rf.isBusy()))) {
+                    (lf.isBusy() && rf.isBusy() && lb.isBusy() && rb.isBusy()))) {
                 idle();
             }
             setP(0, 0, 0, 0);
@@ -253,7 +261,76 @@ public abstract class Hardware extends LinearOpMode
 
 
         while (opModeIsActive() && (
-                (lf.isBusy() || rf.isBusy()))) {
+                (lf.isBusy() && rf.isBusy()))) {
+            idle();
+        }
+        setP(0, 0, 0, 0);
+
+        lf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        lb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rf.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+    }
+
+    public void encoderDrive(double lFeet, double rFeet, double power, boolean verbose){
+        /**
+         * This drives the robot using the encoders. Each side can be given powers.
+         * Use a negative value to go backwards
+         */
+        int lTarget;
+        int rTarget;
+
+        double rSpeed, lSpeed;
+
+        lTarget = -((int)(lFeet * COUNTS_PER_INCH * FEET));//lf.getCurrentPosition() +
+        rTarget = ((int)(rFeet * COUNTS_PER_INCH * FEET));//rf.getCurrentPosition() +
+
+        double ratio;   //power change
+        if(Math.abs(lTarget)<Math.abs(rTarget)) {
+            ratio = lTarget / rTarget;
+            rSpeed = power;//-ADJUSTMENT;
+            lSpeed = power * ratio;
+        } else if(Math.abs(rTarget)<Math.abs(lTarget)){
+            ratio = rTarget / lTarget;
+            lSpeed = power;
+            rSpeed = power * ratio;// - ADJUSTMENT;
+        } else {
+            lSpeed = power;
+            rSpeed = power;// - ADJUSTMENT;
+        }
+
+        //lSpeed *= (lFeet<0? -1 : 1);
+        //rSpeed *= (rFeet<0? -1 : 1);
+
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+
+        lf.setTargetPosition(-lTarget);
+        lb.setTargetPosition(-lTarget);
+        rf.setTargetPosition(rTarget);
+        rb.setTargetPosition(rTarget);
+
+        lf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        lb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rf.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        rb.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        setP(lSpeed, lSpeed, rSpeed, rSpeed);
+
+
+        while (opModeIsActive() && (
+                (lf.isBusy() && rf.isBusy()))) {
+            if(verbose) {
+                telemetry.addData("left target", lTarget);
+                telemetry.addData("right target", rTarget);
+                telemetry.addData("left front", lf.getCurrentPosition());
+                telemetry.addData("left back", lb.getCurrentPosition());
+                telemetry.addData("right front", rf.getCurrentPosition());
+                telemetry.addData("right bakc", rb.getCurrentPosition());
+                telemetry.update();
+            }
             idle();
         }
         setP(0, 0, 0, 0);
@@ -421,6 +498,8 @@ public abstract class Hardware extends LinearOpMode
 
         while (opModeIsActive() && (
                 motor.isBusy()) ) {
+            telemetry.addData("ticks",motor.getCurrentPosition());
+            telemetry.update();
             idle();
         }
         motor.setPower(0);
