@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
@@ -10,7 +11,7 @@ import com.qualcomm.robotcore.hardware.ColorSensor;
 import static java.lang.Thread.sleep;
 
 @TeleOp(name="EZProgram that does stuff")
-//@Disabled
+@Disabled
 public class EZProgram extends OpMode
 {
     /*

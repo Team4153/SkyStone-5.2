@@ -2,9 +2,10 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="Platform2")
-//@Disabled
+@Disabled
 public class Platform2 extends Hardware {
 
 

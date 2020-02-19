@@ -1,10 +1,12 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 @TeleOp(name = "Encoder Test", group = "Diagnostic")
+@Disabled
 public class EncoderTest extends OpMode {
     private DcMotor lf, lb, rf, rb;
 

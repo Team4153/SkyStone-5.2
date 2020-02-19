@@ -127,7 +127,9 @@ public class Tele extends OpMode
             lbPower = STRAFE_SPEED;
             rfPower = STRAFE_SPEED;
             rbPower = -STRAFE_SPEED;
-        } else if (gamepad1.right_trigger > 0.25) {
+        }
+        /*
+        else if (gamepad1.right_trigger > 0.25) {
             lfPower = gamepad1.left_stick_y / 2;
             lbPower = gamepad1.left_stick_y / 2;
             rfPower = gamepad1.right_stick_y / 2;
@@ -139,7 +141,9 @@ public class Tele extends OpMode
             rfPower = gamepad1.right_stick_y / 5;
             rbPower = gamepad1.right_stick_y / 5;
             telemetry.addData("drive","slow 2");
-        } else {
+        }
+        */
+        else {
             lfPower = gamepad1.left_stick_y;
             lbPower = gamepad1.left_stick_y;
             rfPower = gamepad1.right_stick_y;
@@ -152,13 +156,13 @@ public class Tele extends OpMode
         rb.setPower(rbPower*rbA);
 
 
-        if(gamepad2.left_trigger>0) {                 //intake out
-            rIntake.setPower(gamepad2.left_trigger/3);
-            lIntake.setPower(gamepad2.left_trigger/3);
+        if(gamepad1.left_trigger>0) {                   //intake out
+            rIntake.setPower(gamepad1.left_trigger/3);
+            lIntake.setPower(gamepad1.left_trigger/3);
             telemetry.addData("intake","out");
-        } else if (gamepad2.right_trigger>0){           //intake in
-            rIntake.setPower(-gamepad2.right_trigger);
-            lIntake.setPower(-gamepad2.right_trigger);
+        } else if (gamepad1.right_trigger>0){           //intake in
+            rIntake.setPower(-gamepad1.right_trigger/1.5);
+            lIntake.setPower(-gamepad1.right_trigger/1.5);
             telemetry.addData("intake","in");
         }else{
             rIntake.setPower(0);
@@ -176,44 +180,6 @@ public class Tele extends OpMode
             rPlatform.setPosition(1);
             telemetry.addData("platform","down");
         }
-
-
-        /*
-        if(gamepad1.a){
-            spank.setPosition(0);
-        } else if(gamepad1.b){
-            spank.setPosition(0.6);
-        }//*/
-
-       /* while(gamepad2.left_trigger >= 0.1){
-            int x = 0;
-            lplatform.setPosition(x);
-            x += 0.05;
-        }
-        while(gamepad2.right_trigger >= 0.1){
-            int x = 0;
-            lplatform.setPosition(x);
-            x -= 0.05;
-        }*/
-
-
-
-        /*
-        if(gamepad1.a){
-            adjust+=0.05;
-            while (gamepad1.a){
-                telemetry.addData("Adjustment",adjust);
-                telemetry.update();
-            }
-        }
-        if(gamepad1.b){
-            adjust-=0.05;
-            while (gamepad1.b){
-                telemetry.addData("Adjustment",adjust);
-                telemetry.update();
-            }
-        }//*/
-
 
     }
 

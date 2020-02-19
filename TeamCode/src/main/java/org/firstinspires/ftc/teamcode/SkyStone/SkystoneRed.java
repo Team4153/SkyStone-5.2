@@ -76,12 +76,12 @@ public class SkystoneRed extends Hardware {
 
         void driveToStack(){
             setP(.3);
-            telemetry.addData("red",colorSensor.red());
-            telemetry.addData("green",colorSensor.green());
-            telemetry.addData("blue",colorSensor.blue());
-            telemetry.update();
             while (!(colorSensor.red() > 82 || colorSensor.green() > 49 || colorSensor.blue() > 28)){
                 idle();
+                telemetry.addData("red",colorSensor.red());
+                telemetry.addData("green",colorSensor.green());
+                telemetry.addData("blue",colorSensor.blue());
+                telemetry.update();
             }
             setP(0);
         }

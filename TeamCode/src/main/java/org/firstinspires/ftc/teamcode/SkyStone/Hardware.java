@@ -29,14 +29,15 @@ public abstract class Hardware extends LinearOpMode
     public static final double STONE_LENGTH = 3;
     private static final double lfA = 1;//0.8979;
     private static final double lbA = 1;//0.92;
-    private static final double rfA = .8;//0.91;
-    private static final double rbA = .8;//1;
+    private static final double rfA = .943;//0.91;
+    private static final double rbA = .943;//.905
+            ;//1;
 
     private static final double     FEET                    = 14.75;    //adjusted
     private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
     private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
     private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    /*public static final*/ public double     COUNTS_PER_INCH         = 58.7207255495727;//(COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
+    /*public static final*/ public double     COUNTS_PER_INCH         = 62.4164083;//(COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double     DRIVE_SPEED             = 0.7;
     private static final double           ADJUSTMENT              = 0;//0.15;
     //static final double     TURN_SPEED              = 0.5;
@@ -510,11 +511,26 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void intake (){
-        lIntake.setPower(0.8);
-        rIntake.setPower(0.8);
-        sleep(500);
+        lIntake.setPower(-0.7);
+        rIntake.setPower(-0.7);
+        //encoderDrive(1.3,1.3);
+        encoderDrive(1.5,1.5);
+        //lIntake.setPower(0.7);
+        //rIntake.setPower(0.7);
         lIntake.setPower(0);
         rIntake.setPower(0);
+        encoderDrive(-1.6,-1.6);
+    }
+    public void intake2 (){
+        lIntake.setPower(-0.7);
+        rIntake.setPower(-0.7);
+        //encoderDrive(1.3,1.3);
+        encoderDrive(2.3,2.3);
+        //lIntake.setPower(0.7);
+        //rIntake.setPower(0.7);
+        lIntake.setPower(0);
+        rIntake.setPower(0);
+        encoderDrive(-2.4,-2.4);
     }
 
     public void outtake (){

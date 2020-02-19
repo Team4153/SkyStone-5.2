@@ -3,9 +3,10 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 
 @Autonomous(name="Loading zone auto")
-//@Disabled
+@Disabled
 public class LoadingZoneRed extends Hardware {
     //private Hardware         robot   = new Hardware();
 
