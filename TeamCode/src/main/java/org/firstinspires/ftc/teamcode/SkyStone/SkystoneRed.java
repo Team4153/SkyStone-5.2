@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="SkystoneRed")
-//@Disabled
+@Disabled
 public class SkystoneRed extends Hardware {
 
 
@@ -22,21 +23,19 @@ public class SkystoneRed extends Hardware {
             if(skyStones>=2){
                 break;
             }
-            if(isYellow()&& skyStones<=2){
+            if(isYellow()){
                 encoderStrafe(STONE_LENGTH,LEFT);
-            } else if (skyStones<=1){
+            } else{
                 skyStones++;
                 intake();
                 toBridge(stonez);
                 outtake();
                 fromBridge(stonez);
-
-            } else {
-                skyStones++;
                 intake();
                 toBridge(stonez + 3);
                 outtake();
                 encoderStrafe(1,LEFT);
+
             }
 
         }
@@ -53,28 +52,24 @@ public class SkystoneRed extends Hardware {
         */
 
         }
-        boolean isYellow(){
+        private boolean isYellow(){
             sleep(100);
             telemetry.addData("red",colorSensor.red());
             telemetry.addData("green",colorSensor.green());
             telemetry.addData("blue",colorSensor.blue());
             telemetry.update();
-            int yellowMin[] = {82,49,28};
-            int yellowMax[] = {316,193,100};
-            if(colorSensor.red() < 316 && colorSensor.red() > 82 && colorSensor.green() >49 && colorSensor.green() < 193 && colorSensor.blue() >28 && colorSensor.blue() <100){
-                return (true);
-            } else {
-                return (false);
-            }
+            //int[] yellowMin = {82,49,28};
+            //int[] yellowMax = {316,193,100};
+            return(colorSensor.red() < 316 && colorSensor.red() > 82 && colorSensor.green() >49 && colorSensor.green() < 193 && colorSensor.blue() >28 && colorSensor.blue() <100);
         }
-        void fromBridge(int stonez){
+        private void fromBridge(int stonez){
             encoderStrafe(STONE_LENGTH * (stonez + 3) + FEET_TO_BRIDGE, LEFT);
         }
-        void toBridge(int stonez){
+        private void toBridge(int stonez){
             encoderStrafe(STONE_LENGTH * stonez + FEET_TO_BRIDGE, RIGHT);
         }
 
-        void driveToStack(){
+        private void driveToStack(){
             setP(.3);
             while (!(colorSensor.red() > 82 || colorSensor.green() > 49 || colorSensor.blue() > 28)){
                 idle();

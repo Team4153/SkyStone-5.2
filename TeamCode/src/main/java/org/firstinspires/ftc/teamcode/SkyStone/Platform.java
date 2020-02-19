@@ -15,7 +15,7 @@ public class Platform extends Hardware {
         init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
-        /**
+        /*
         while(!opModeIsActive()){
             if(gamepad1.a){
                 ADJUSTMENT += .05;

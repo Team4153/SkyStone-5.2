@@ -1,13 +1,13 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
-import android.graphics.Color;
+//import android.graphics.Color;
 
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+//import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
+//import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 //import com.qualcomm.robotcore.hardware.Servo;
@@ -15,44 +15,43 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public abstract class Hardware extends LinearOpMode
 {
-    public DcMotor  lf   = null;
-    public DcMotor  lb   = null;
-    public DcMotor  rf   = null;
-    public DcMotor  rb   = null;
-    public Servo lPlatform = null;
-    public Servo rPlatform = null;
-    public DcMotor lIntake = null;
-    public DcMotor rIntake = null;
-    public ColorSensor colorSensor = null;
+    DcMotor  lf   = null;
+    DcMotor  lb   = null;
+    DcMotor  rf   = null;
+    DcMotor  rb   = null;
+    Servo lPlatform = null;
+    Servo rPlatform = null;
+    DcMotor lIntake = null;
+    DcMotor rIntake = null;
+    ColorSensor colorSensor = null;
 
-    public static final double FEET_TO_BRIDGE = 4;
-    public static final double STONE_LENGTH = 3;
+    static final double FEET_TO_BRIDGE = 4;
+    static final double STONE_LENGTH = 3;
     private static final double lfA = 1;//0.8979;
     private static final double lbA = 1;//0.92;
     private static final double rfA = .943;//0.91;
     private static final double rbA = .943;//.905
-            ;//1;
 
     private static final double     FEET                    = 14.75;    //adjusted
-    private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
-    private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
-    private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
-    /*public static final*/ public double     COUNTS_PER_INCH         = 62.4164083;//(COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
+    //private static final double     COUNTS_PER_MOTOR_REV    = 280*3 ;
+    //private static final double     DRIVE_GEAR_REDUCTION    = 1.0 ;     // This is < 1.0 if geared UP
+    //private static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
+    /*public static final*/ double     COUNTS_PER_INCH         = 62.4164083;//(COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /(WHEEL_DIAMETER_INCHES * Math.PI);
     private static final double     DRIVE_SPEED             = 0.7;
     private static final double           ADJUSTMENT              = 0;//0.15;
     //static final double     TURN_SPEED              = 0.5;
     private static final double     ROBOT_DIAMETER_FEET     = 16.0/FEET;
     private static final double     ROBOT_CIRCUMFRANCE      = (Math.PI * ROBOT_DIAMETER_FEET);
 
-    public static final boolean     COUNTER_CLOCKWISE    = false;
-    public static final boolean     CLOCKWISE   = true;
-    public static final boolean     RIGHT   = false;
-    public static final boolean     LEFT    = true;
+    static final boolean     COUNTER_CLOCKWISE    = false;
+    static final boolean     CLOCKWISE   = true;
+    static final boolean     RIGHT   = false;
+    static final boolean     LEFT    = true;
 
-    public int gay = 1000;
+    int gay = 1000;
 
 
-    private HardwareMap hwMap           =  null;
+
    // private Servo grabber = null;
    // double armPos;
     //private ElapsedTime period  = new ElapsedTime();
@@ -62,24 +61,23 @@ public abstract class Hardware extends LinearOpMode
     }
 
     public void init(HardwareMap ahwMap) {
-        hwMap = ahwMap;
 
-        lf  = hwMap.get(DcMotor.class, "lf");
+        lf  = ahwMap.get(DcMotor.class, "lf");
         lf.setDirection(DcMotor.Direction.REVERSE);
         lf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lf.setPower(0);
 
-        lb  = hwMap.get(DcMotor.class, "lb");
+        lb  = ahwMap.get(DcMotor.class, "lb");
         lb.setDirection(DcMotor.Direction.REVERSE);
         lb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         lb.setPower(0);
 
-        rf  = hwMap.get(DcMotor.class, "rf");
+        rf  = ahwMap.get(DcMotor.class, "rf");
         //rf.setDirection(DcMotorSimple.Direction.REVERSE);
         rf.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rf.setPower(0);
 
-        rb  = hwMap.get(DcMotor.class, "rb");
+        rb  = ahwMap.get(DcMotor.class, "rb");
         //rb.setDirection(DcMotorSimple.Direction.REVERSE);
         rb.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rb.setPower(0);
@@ -88,10 +86,10 @@ public abstract class Hardware extends LinearOpMode
 
         rPlatform = hardwareMap.get(Servo.class, "rPlatform");
 
-        lIntake  = hwMap.get(DcMotor.class, "lIntake");
+        lIntake  = ahwMap.get(DcMotor.class, "lIntake");
         lIntake.setPower(0);
 
-        rIntake  = hwMap.get(DcMotor.class, "rIntake");
+        rIntake  = ahwMap.get(DcMotor.class, "rIntake");
         rIntake.setPower(0);
 
         colorSensor = hardwareMap.get(ColorSensor.class, "colorSensor");
@@ -105,7 +103,7 @@ public abstract class Hardware extends LinearOpMode
 
     }
 
-    public void addDelay(){
+    void addDelay(){
         double delay = 0;
         while (!opModeIsActive()){
             if(gamepad1.a){
@@ -128,36 +126,35 @@ public abstract class Hardware extends LinearOpMode
         sleep((long)(100*delay));
     }
 
-    public void say(String title, String message){
+    /*
+    void say(String title, String message){
         telemetry.addData(title, message);
         telemetry.update();
     } public void say(String title, double value){
         telemetry.addData(title, value);
         telemetry.update();
-}
+    }
+     */
 
-    public void setP(double lfPower, double lbPower, double rfPower, double rbPower){
+    void setP(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower * lfA);
         lb.setPower(lbPower * lbA);
         rf.setPower(rfPower * rfA);
         rb.setPower(rbPower * rbA);
     }
-    public void setP(double power){
+    void setP(double power){
         setP(power,power,power,power);
     }
 
-    public void gayPower(double lfPower, double lbPower, double rfPower, double rbPower){
+    private void gayPower(double lfPower, double lbPower, double rfPower, double rbPower){
         lf.setPower(lfPower * lfA);
         lb.setPower(lbPower * lbA);
         rf.setPower(rfPower * rfA);
         rb.setPower(rbPower * rbA);
     }
 
-    public void encoderDrive(double lFeet, double rFeet) {
-        /**
-         * This drives the robot using the encoders. Each side can be given powers.
-         * Use a negative value to go backwards
-         */
+    void encoderDrive(double lFeet, double rFeet) {
+
         int lTarget;
         int rTarget;
 
@@ -213,11 +210,12 @@ public abstract class Hardware extends LinearOpMode
             rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void encoderDrive(double lFeet, double rFeet, double power) {
-        /**
-         * This drives the robot using the encoders. Each side can be given powers.
-         * Use a negative value to go backwards
-         */
+    void encoderDrive(double feet){
+        encoderDrive(feet,feet);
+    }
+
+    void encoderDrive(double lFeet, double rFeet, double power) {
+
         int lTarget;
         int rTarget;
 
@@ -273,11 +271,8 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void encoderDrive(double lFeet, double rFeet, double power, boolean verbose){
-        /**
-         * This drives the robot using the encoders. Each side can be given powers.
-         * Use a negative value to go backwards
-         */
+    void encoderDrive(double lFeet, double rFeet, double power, boolean verbose){
+
         int lTarget;
         int rTarget;
 
@@ -342,11 +337,8 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void gayDrive(double lFeet, double rFeet) {
-        /**
-         * This drives the robot using the encoders. Each side can be given powers.
-         * Use a negative value to go backwards
-         */
+    void gayDrive(double lFeet, double rFeet) {
+
         int lTarget;
         int rTarget;
 
@@ -406,11 +398,8 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void encoderStrafe(double feet, boolean direction) {
-        /**
-         * This strafes the robot using the encoders. Each side can be given distances.
-         * Direction is LEFT or RIGHT
-         */
+    void encoderStrafe(double feet, boolean direction) {
+
         double speed;
         int target;
 
@@ -463,11 +452,8 @@ public abstract class Hardware extends LinearOpMode
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    public void turn(int degrees, boolean direction){
-        /**
-         * This turns the robot using encoders. This is not the best as of now, but it'll work.
-         * Enter degrees (0-360), and a direction (CLOCKWISE / COUNTER_CLOCKWISE)
-         */
+    void turn(int degrees, boolean direction){
+
         double ratio = degrees / 360.0;
         double target = ratio * ROBOT_CIRCUMFRANCE;
         telemetry.addData("ratio",ratio);
@@ -481,11 +467,13 @@ public abstract class Hardware extends LinearOpMode
         //sleep(500);
     }
 
-    public void reverseDrive(double lFeet, double rFeet){
+    /*
+    void reverseDrive(double lFeet, double rFeet){
         encoderDrive(-rFeet, -lFeet);
     }
+     */
 
-    public void oneMotor(DcMotor motor, int target, double power){
+    void oneMotor(DcMotor motor, int target, double power){
 
         target *= (int)(COUNTS_PER_INCH * 12);
 
@@ -510,7 +498,7 @@ public abstract class Hardware extends LinearOpMode
 
     }
 
-    public void intake (){
+    void intake (){
         lIntake.setPower(-0.7);
         rIntake.setPower(-0.7);
         //encoderDrive(1.3,1.3);
@@ -521,7 +509,7 @@ public abstract class Hardware extends LinearOpMode
         rIntake.setPower(0);
         encoderDrive(-1.6,-1.6);
     }
-    public void intake2 (){
+    void intake2 (){
         lIntake.setPower(-0.7);
         rIntake.setPower(-0.7);
         //encoderDrive(1.3,1.3);
@@ -533,10 +521,10 @@ public abstract class Hardware extends LinearOpMode
         encoderDrive(-2.4,-2.4);
     }
 
-    public void outtake (){
-        lIntake.setPower(0.8);
-        rIntake.setPower(0.8);
-        sleep(500);
+    void outtake (){
+        lIntake.setPower(0.4);
+        rIntake.setPower(0.4);
+        sleep(800);
         lIntake.setPower(0);
         rIntake.setPower(0);
     }

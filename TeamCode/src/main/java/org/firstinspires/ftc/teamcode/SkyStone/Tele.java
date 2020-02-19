@@ -1,7 +1,7 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
+//import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -29,10 +29,7 @@ public class Tele extends OpMode
     private static final double rfA = .8;
     private static final double rbA = .8;
 
-    double lfPower=0;
-    double lbPower=0;
-    double rfPower=0;
-    double rbPower=0;
+
 
 
     /*
@@ -49,7 +46,7 @@ public class Tele extends OpMode
     double rbA = 1.0;//0.998;
     //*/
 
-    private static double STRAFE_SPEED = 0.5;
+
 
     /*
      * Code to run ONCE when the driver hits INIT
@@ -109,6 +106,8 @@ public class Tele extends OpMode
     @Override
     public void loop() {
 
+        double lfPower,lbPower,rfPower,rbPower;
+        double STRAFE_SPEED = 0.5;
 
         //lfA = 0.991 - adjust;
         //lbA = 0.991 - adjust;
@@ -117,18 +116,17 @@ public class Tele extends OpMode
 
 
 //newest update
-        if (gamepad1.left_bumper) {
+        if (gamepad1.dpad_left) {
             lfPower = STRAFE_SPEED;
             lbPower = -STRAFE_SPEED;
             rfPower = -STRAFE_SPEED;
             rbPower = STRAFE_SPEED;
-        } else if (gamepad1.right_bumper) {
+        } else if (gamepad1.dpad_right) {
             lfPower = -STRAFE_SPEED;
             lbPower = STRAFE_SPEED;
             rfPower = STRAFE_SPEED;
             rbPower = -STRAFE_SPEED;
         }
-        /*
         else if (gamepad1.right_trigger > 0.25) {
             lfPower = gamepad1.left_stick_y / 2;
             lbPower = gamepad1.left_stick_y / 2;
@@ -142,7 +140,6 @@ public class Tele extends OpMode
             rbPower = gamepad1.right_stick_y / 5;
             telemetry.addData("drive","slow 2");
         }
-        */
         else {
             lfPower = gamepad1.left_stick_y;
             lbPower = gamepad1.left_stick_y;

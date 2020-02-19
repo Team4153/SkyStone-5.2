@@ -1,14 +1,14 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 //import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
+//import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cColorSensor;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 //import com.qualcomm.robotcore.util.ElapsedTime;
 
-import static java.lang.Thread.sleep;
+//import static java.lang.Thread.sleep;
 
 @TeleOp(name="EZProgram that does stuff")
 @Disabled
@@ -27,14 +27,14 @@ public class EZProgram extends OpMode
     private ColorSensor colorSensor = null;
 
 
-    int yellowRGBMax[] = {-1,-1,-1}; //rgb values {red, green, blue}
-    int yellowRGBMin[] = {900000000,900000000,900000000};
-    int minSum = 900000000;
-    int maxSum = -1;
+    private int[] yellowRGBMax = {-1,-1,-1}; //rgb values {red, green, blue}
+    private int[] yellowRGBMin = {900000000,900000000,900000000};
+    private int minSum = 900000000;
+    private int maxSum = -1;
 
-    int red, green, blue;
 
-    boolean mode = true;
+
+    private boolean mode = true;
 
 
     /*
@@ -194,7 +194,9 @@ public class EZProgram extends OpMode
     }
 
 
-    void trainColor(){
+    private void trainColor(){
+
+        int red, green, blue;
         red = colorSensor.red();
         green = colorSensor.green();
         blue = colorSensor.blue();
@@ -237,9 +239,9 @@ public class EZProgram extends OpMode
         }
     }
 
-    void testColor(){
-        int yellowMin[] = {82,49,28};
-        int yellowMax[] = {316,193,100};
+    private void testColor(){
+        int[] yellowMin = {82,49,28};
+        //int[] yellowMax = {316,193,100};
 
         //int otherMin[] = {1,0,0};
         //int otherMax[] = {4,3,2};
@@ -251,7 +253,7 @@ public class EZProgram extends OpMode
             green = colorSensor.green();
             blue = colorSensor.blue();
 
-            String whatItIs = "";
+            String whatItIs;
 
             if(red > yellowMin[0] && green > yellowMin[1] && blue > yellowMin[2]){
                 whatItIs = "yellow";

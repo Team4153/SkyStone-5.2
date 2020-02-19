@@ -2,10 +2,11 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 @Autonomous(name="SkystoneBlue")
-//@Disabled
+@Disabled
 
 public class SkystoneBlue extends Hardware {
 
@@ -21,17 +22,14 @@ public class SkystoneBlue extends Hardware {
             if(skyStones>=2){
                 break;
             }
-            if(isYellow()&& skyStones<=2){
+            if(isYellow()){
                 encoderStrafe(1,RIGHT);
-            } else if (skyStones<=1){
+            } else {
                 skyStones++;
                 intake();
                 toBridgeBlue(stonez);
                 outtake();
                 fromBridgeBlue(stonez);
-
-            } else {
-                skyStones++;
                 intake();
                 toBridgeBlue(stonez + 3);
                 outtake();
@@ -52,17 +50,13 @@ public class SkystoneBlue extends Hardware {
             */
 
 }
-    boolean isYellow(){
-        if(colorSensor.red() < 46 && colorSensor.red() > 7 && colorSensor.green() >4 && colorSensor.green() < 31 && colorSensor.blue() >0 && colorSensor.blue() <4){
-            return (true);
-        } else {
-            return (false);
-        }
+    private boolean isYellow(){
+        return(colorSensor.red() < 46 && colorSensor.red() > 7 && colorSensor.green() >4 && colorSensor.green() < 31 && colorSensor.blue() >0 && colorSensor.blue() <4);
     }
-    void fromBridgeBlue(int stonez){
+    private void fromBridgeBlue(int stonez){
         encoderStrafe(STONE_LENGTH * (stonez + 3) + FEET_TO_BRIDGE, RIGHT);
     }
-    void toBridgeBlue(int stonez){
+    private void toBridgeBlue(int stonez){
         encoderStrafe(STONE_LENGTH * stonez + FEET_TO_BRIDGE, LEFT);
     }
 

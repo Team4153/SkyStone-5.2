@@ -2,12 +2,12 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.util.ElapsedTime;
-import com.qualcomm.robotcore.util.Range;
+//import com.qualcomm.robotcore.eventloop.opmode.Disabled;
+//import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+//import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+//import com.qualcomm.robotcore.hardware.DcMotor;
+//import com.qualcomm.robotcore.util.ElapsedTime;
+//import com.qualcomm.robotcore.util.Range;
 
 @Autonomous(name="Just Park")
 //@Disabled
@@ -23,7 +23,7 @@ public class JustPark extends Hardware {
 
         int delay = 0;
         int dist = 7;
-        boolean selection = true;
+
         String[] selectionName = {"move","arm drop"};
 
         while(!opModeIsActive()){
@@ -54,13 +54,12 @@ public class JustPark extends Hardware {
                }
            }
             else if(gamepad1.dpad_up){
-                selection = false;
+
                 while (gamepad1.dpad_up){
                     telemetry.addData("selection",selectionName[0]);
                     telemetry.update();
                 }
            } else if(gamepad1.dpad_down){
-                selection = true;
                 while (gamepad1.dpad_down){
                     telemetry.addData("selection",selectionName[1]);
                     telemetry.update();

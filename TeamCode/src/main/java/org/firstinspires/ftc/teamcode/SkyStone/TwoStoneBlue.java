@@ -2,45 +2,70 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Two Stone Red")
+@Autonomous(name="Two Stone Blue")
 //@Disabled
-public class TwoStoneRed extends Hardware {
+public class TwoStoneBlue extends Hardware {
 
 
     @Override
     public void runOpMode() {
 
-
         init(hardwareMap);
+        boolean endPosition = true;
+        boolean platformDivert = true;
+
+        while (!opModeIsActive()){
+            if(gamepad1.a){
+                endPosition = false;
+            }
+            else if(gamepad1.b){
+                endPosition = true;
+            }
+            if(gamepad1.x){
+                platformDivert = true;
+            } else if(gamepad1.y){
+                platformDivert = false;
+            }
+            telemetry.addData("Platform Divert",platformDivert);
+            telemetry.addData("End Position", endPosition? "bridge" : "wall");
+            telemetry.update();
+
+        }
         waitForStart();
 
         //driveToStack();
+        encoderDrive(3,3,.8);
         driveToStack2();
-        //sleep(500);
-        sleep(100);
         intake();
-        //sleep(500);
-        sleep(100);
-        turn(105,CLOCKWISE);
-        //sleep(500);
-        sleep(100);
-        encoderDrive(5, 5);
-        sleep(100);
-        outtake();
-        sleep(100);
-        encoderDrive(-6.6,-6.6);
-        sleep(100);
         turn(90,COUNTER_CLOCKWISE);
-        sleep(100);
-        intake2();
-        sleep(100);
-        turn(90,CLOCKWISE);
-        sleep(100);
-        encoderDrive(6,6);
-        sleep(100);
+        encoderDrive(5, 5,1);
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
         outtake();
-        sleep(100);
-        encoderDrive(-2,-2);
+        if(platformDivert){
+            turn(92,COUNTER_CLOCKWISE);
+        }
+        turn(8,CLOCKWISE);
+        encoderDrive(-6.6,-6.6,1);
+        turn(90,CLOCKWISE);
+        intake2();
+        turn(90,COUNTER_CLOCKWISE);
+        encoderDrive(6.1,6.1,1);
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        outtake();
+        if(platformDivert){
+            turn(92,COUNTER_CLOCKWISE);
+        }
+        encoderDrive(-2,-2,1);
+        if(endPosition){ //bridge
+            encoderStrafe(1,RIGHT);
+        } else{
+            turn(8,CLOCKWISE);
+            encoderStrafe(4,LEFT);
+        }
         /*encoderDrive(10,10);
         sleep(500);
         outtake();

@@ -23,7 +23,7 @@ public class EncoderTest extends OpMode {
         rb.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
     }
 
-    void driveMotor(final DcMotor motor, final boolean condition) {
+    private void driveMotor(final DcMotor motor, final boolean condition) {
         if (condition) {
             motor.setPower(gamepad1.left_stick_y);
         } else {
