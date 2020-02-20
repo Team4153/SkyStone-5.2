@@ -28,7 +28,7 @@ public class WhenItBreaks extends Hardware {
                 }
             } else if(gamepad1.b){
                 run--;
-                while (gamepad1.a){
+                while (gamepad1.b){
                     run = (int)Math.pow(run,2);
                     run = (int)Math.sqrt(run);
                 }
