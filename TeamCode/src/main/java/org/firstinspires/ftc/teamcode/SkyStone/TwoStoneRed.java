@@ -10,37 +10,58 @@ public class TwoStoneRed extends Hardware {
     @Override
     public void runOpMode() {
 
-
         init(hardwareMap);
-        waitForStart();
+        boolean endPosition = true;
+        boolean platformDivert = true;
 
-        //driveToStack();
+        while (!opModeIsActive()){
+            if(gamepad1.a){
+                endPosition = false;
+            }
+            else if(gamepad1.b){
+                endPosition = true;
+            }
+            if(gamepad1.x){
+                platformDivert = true;
+            } else if(gamepad1.y){
+                platformDivert = false;
+            }
+            telemetry.addData("Platform Divert",platformDivert);
+            telemetry.addData("End Position", endPosition? "bridge" : "wall");
+            telemetry.update();
+
+        }
+        waitForStart();
+        encoderDrive(3,3,.8);
         driveToStack2();
-        //sleep(500);
-        sleep(100);
         intake();
-        //sleep(500);
-        sleep(100);
         turn(105,CLOCKWISE);
-        //sleep(500);
-        sleep(100);
-        encoderDrive(5, 5);
-        sleep(100);
+        encoderDrive(4.5, 4.5,1);
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
         outtake();
-        sleep(100);
-        encoderDrive(-6.6,-6.6);
-        sleep(100);
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        encoderDrive(-6.6,-6.6,1);
         turn(90,COUNTER_CLOCKWISE);
-        sleep(100);
         intake2();
-        sleep(100);
         turn(90,CLOCKWISE);
-        sleep(100);
-        encoderDrive(6,6);
-        sleep(100);
+        encoderDrive(6,6,1);
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
         outtake();
-        sleep(100);
-        encoderDrive(-2,-2);
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        encoderDrive(-2,-2,1);
+        if(endPosition){ //bridge
+            encoderStrafe(1.2,LEFT);
+        } else{
+            encoderStrafe(3,RIGHT);
+        }
         /*encoderDrive(10,10);
         sleep(500);
         outtake();

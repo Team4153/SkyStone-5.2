@@ -147,34 +147,8 @@ public class EZProgram extends OpMode
         }
         //*/
 
-        if(mode){
-            testColor();
-        }
-        else {
-            trainColor();
-        }
 
 
-        /*
-        if(red > yellowRGBMax[0]){
-            yellowRGBMax[0] = red;
-        }
-        if(green > yellowRGBMax[1]){
-            yellowRGBMax[1] = green;
-        }
-        if(blue > yellowRGBMax[2]){
-            yellowRGBMax[2] = blue;
-        }
-        if(red < yellowRGBMin[0]){
-            yellowRGBMin[0] = red;
-        }
-        if(green < yellowRGBMin[1]){
-            yellowRGBMin[1] = green;
-        }
-        if(blue < yellowRGBMin[2]){
-            yellowRGBMin[2] = blue;
-        }
-        */
     }
 
     /*
@@ -239,31 +213,18 @@ public class EZProgram extends OpMode
         }
     }
 
-    private void testColor(){
+    private boolean isYellow(){
         int[] yellowMin = {82,49,28};
         //int[] yellowMax = {316,193,100};
 
-        //int otherMin[] = {1,0,0};
-        //int otherMax[] = {4,3,2};
 
-        int red, green, blue;
-
+            int red, green, blue;
 
             red = colorSensor.red();
             green = colorSensor.green();
             blue = colorSensor.blue();
 
-            String whatItIs;
-
-            if(red > yellowMin[0] && green > yellowMin[1] && blue > yellowMin[2]){
-                whatItIs = "yellow";
-            } else {
-                whatItIs = "black";
-            }
-
-
-            telemetry.addData("this is...",whatItIs);
-
+            return(red > yellowMin[0] && green > yellowMin[1] && blue > yellowMin[2]);
     }
 }
 

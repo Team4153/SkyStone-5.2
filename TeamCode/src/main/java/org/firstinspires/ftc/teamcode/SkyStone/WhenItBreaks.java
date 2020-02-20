@@ -16,14 +16,22 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        String[] choices = {"distance","time","gayFix","colorMove","eachMotor","rainbow"};
+        String[] choices = {"distance","time","gayFix","colorMove","eachMotor","rainbow","sampleTest"};
         int run = 0;
 
         while(!opModeIsActive()){
             if(gamepad1.a) {
                 run++;
+                while (gamepad1.a){
+                    run = (int)Math.pow(run,2);
+                    run = (int)Math.sqrt(run);
+                }
             } else if(gamepad1.b){
                 run--;
+                while (gamepad1.a){
+                    run = (int)Math.pow(run,2);
+                    run = (int)Math.sqrt(run);
+                }
             }
             if(run <0) run=0;
             else if(run>=choices.length) run = choices.length-1;
@@ -42,6 +50,7 @@ public class WhenItBreaks extends Hardware {
             case 3: colorMove();
             case 4: eachMotor();
             case 5: rainbow();
+            case 6: sampleTest();
         }
 
     }
@@ -174,6 +183,35 @@ public class WhenItBreaks extends Hardware {
             encoderStrafe(10, LEFT);
             encoderStrafe(10, RIGHT);
         }
+    }
+
+    private void sampleTest(){
+        for(int i=1; i<=2;i++){
+            if(!isYellow()){
+                telemetry.addData("yellow",i);
+                break;
+            } else if(i==2){
+                telemetry.addData("yellow",3);
+            }
+            else{
+                encoderStrafe(2,RIGHT);
+            }
+        }
+        telemetry.update();
+        sleep(500000000);
+    }
+
+    private boolean isYellow(){
+        int[] yellowMin = {82,49,28};
+        //int[] yellowMax = {316,193,100};
+
+        int red, green, blue;
+
+        red = colorSensor.red();
+        green = colorSensor.green();
+        blue = colorSensor.blue();
+
+        return(red > yellowMin[0] && green > yellowMin[1] && blue > yellowMin[2]);
     }
 }
 
