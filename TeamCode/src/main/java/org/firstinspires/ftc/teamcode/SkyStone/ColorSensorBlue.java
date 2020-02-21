@@ -67,13 +67,15 @@ public class ColorSensorBlue extends Hardware {
 
         */
         waitForStart();
-        encoderStrafe(3,RIGHT);
-        encoderDrive(3,3,.8);
+        //encoderStrafe(3,RIGHT);
+        encoderDrive(2.8,2.8,.8);
         driveToStack2();
+        encoderStrafe(3,RIGHT);
         int stoneNum = skyTest();
         switch (stoneNum){
             case 1: stone1(platformDivert, endPosition);
             case 2: stone2(platformDivert, endPosition);
+            case 3: stone3(platformDivert, endPosition);
         }
         /*
         if(stoneNum == 1 ){
@@ -178,9 +180,11 @@ public class ColorSensorBlue extends Hardware {
     }
 
     private void stone1(boolean platformDivert, boolean endPosition){
+        //turn(5,CLOCKWISE);
+        encoderStrafe(0.4,LEFT);
         intake();
-        turn(115,COUNTER_CLOCKWISE);
-        encoderDrive(6,6,1);
+        turn(95,COUNTER_CLOCKWISE);
+        encoderDrive(6.3,6.3,1);
         if(platformDivert){
             turn(90,CLOCKWISE);
         }
@@ -188,10 +192,12 @@ public class ColorSensorBlue extends Hardware {
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
         }
-        encoderDrive(-7.8,-7.8,1);
-        encoderDrive(-.1);
-        turn(120,CLOCKWISE);
-        encoderStrafe(.3,RIGHT);
+        turn(20,CLOCKWISE);
+        encoderDrive(-7.7,-7.7,1);
+        //encoderDrive(-.1);
+        turn(110,CLOCKWISE);
+        //encoderStrafe(.3,RIGHT);
+        encoderDrive(1,1,1);
         intake2();
         turn(120,COUNTER_CLOCKWISE);
         encoderDrive(7.8,7.8,1);
@@ -207,28 +213,56 @@ public class ColorSensorBlue extends Hardware {
     }
     private void stone2(boolean platformDivert, boolean endPosition){
         //encoderStrafe(1,RIGHT);
-        encoderStrafe(0.2,LEFT);
+        //encoderStrafe(0.2,LEFT);
         intake();
-        turn(115,CLOCKWISE);
+        turn(100,COUNTER_CLOCKWISE);
         encoderDrive(4.7,4.7,1);
         if(platformDivert){
-            turn(90,COUNTER_CLOCKWISE);
+            turn(90,CLOCKWISE);
         }
         outtake();
         if(platformDivert){
-            turn(90,CLOCKWISE);
+            turn(90,COUNTER_CLOCKWISE);
         }
         encoderDrive(-7.1,-7.1,1);
         turn(110,COUNTER_CLOCKWISE);
         intake2();
-        turn(100,CLOCKWISE);
+        turn(100,COUNTER_CLOCKWISE);
         encoderDrive(8.1,8.1,1);
         if(platformDivert){
-            turn(90,COUNTER_CLOCKWISE);
+            turn(90,CLOCKWISE);
         }
         outtake();
         if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
+        encoderDrive(-2,-2,1);
+        endPark(endPosition);
+    }
+    private void stone3(boolean platformDivert, boolean endPosition){
+        //encoderStrafe(1,RIGHT);
+        encoderStrafe(0.2,LEFT);
+        intake();
+        turn(115,COUNTER_CLOCKWISE);
+        encoderDrive(4.7,4.7,1);
+        if(platformDivert){
             turn(90,CLOCKWISE);
+        }
+        outtake();
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
+        encoderDrive(-7.1,-7.1,1);
+        turn(110,COUNTER_CLOCKWISE);
+        intake2();
+        turn(100,COUNTER_CLOCKWISE);
+        encoderDrive(8.1,8.1,1);
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        outtake();
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
         }
         encoderDrive(-2,-2,1);
         endPark(endPosition);

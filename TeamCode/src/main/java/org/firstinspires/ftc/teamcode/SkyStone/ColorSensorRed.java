@@ -73,6 +73,7 @@ public class ColorSensorRed extends Hardware {
         switch (stoneNum){
             case 1: stone1(platformDivert, endPosition);
             case 2: stone2(platformDivert, endPosition);
+            case 3: stone3(platformDivert,endPosition);
         }
         /*
         if(stoneNum == 1 ){
@@ -177,22 +178,23 @@ public class ColorSensorRed extends Hardware {
     }
 
     private void stone1(boolean platformDivert, boolean endPosition){
+        encoderStrafe(0.3,LEFT);
         intake();
-        turn(115,CLOCKWISE);
+        turn(120,CLOCKWISE);
         encoderDrive(5.5,5.5,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
         }
         outtake();
         if(platformDivert){
-            turn(90,CLOCKWISE);
+            turn(85,CLOCKWISE);
         }
         encoderDrive(-7.8,-7.8,1);
-        encoderDrive(-.1);
-        turn(120,COUNTER_CLOCKWISE);
+        //encoderDrive(-.1);
+        turn(115,COUNTER_CLOCKWISE);
         encoderStrafe(.3,LEFT);
-        intake2();
-        turn(120,CLOCKWISE);
+        intake3();
+        turn(130,CLOCKWISE);
         encoderDrive(7.8,7.8,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
@@ -202,7 +204,12 @@ public class ColorSensorRed extends Hardware {
             turn(90,CLOCKWISE);
         }
         encoderDrive(-2,-2,1);
-        endPark(endPosition);
+        //endPark(endPosition);
+        if(endPosition){ //bridge
+            encoderStrafe(3.5,LEFT);
+        } else{
+            encoderStrafe(3,RIGHT);
+        }
     }
     private void stone2(boolean platformDivert, boolean endPosition){
         //encoderStrafe(1,RIGHT);
@@ -217,11 +224,45 @@ public class ColorSensorRed extends Hardware {
         if(platformDivert){
             turn(90,CLOCKWISE);
         }
-        encoderDrive(-7.1,-7.1,1);
-        turn(110,COUNTER_CLOCKWISE);
+        encoderDrive(-7.3,-7.3,1);
+        turn(115,COUNTER_CLOCKWISE);
         intake2();
         turn(100,CLOCKWISE);
         encoderDrive(8.1,8.1,1);
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
+        outtake();
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        encoderDrive(-2,-2,1);
+        //endPark(endPosition);
+        if(endPosition){ //bridge
+            encoderStrafe(3.5,LEFT);
+        } else{
+            encoderStrafe(3,RIGHT);
+        }
+    }
+    private void stone3(boolean platformDivert, boolean endPosition){
+        encoderDrive(-0.5,-0.5,1);
+        encoderStrafe(0.3,RIGHT);
+        encoderStrafe(0.3,LEFT);
+        intake();
+        turn(115,CLOCKWISE);
+        encoderDrive(4.3,4.3,1);
+        if(platformDivert){
+            turn(90,COUNTER_CLOCKWISE);
+        }
+        outtake();
+        if(platformDivert){
+            turn(90,CLOCKWISE);
+        }
+        encoderDrive(-7.3,-7.3,1);
+        turn(115,COUNTER_CLOCKWISE);
+        intake2();
+        turn(115,CLOCKWISE);
+        encoderDrive(7.3,7.3,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
         }

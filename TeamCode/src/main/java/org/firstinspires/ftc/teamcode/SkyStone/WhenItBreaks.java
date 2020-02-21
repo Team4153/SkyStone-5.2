@@ -2,6 +2,7 @@
 package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
 //import com.qualcomm.robotcore.hardware.DcMotor;
 
 @Autonomous(name="When it Breaks")
@@ -16,7 +17,7 @@ public class WhenItBreaks extends Hardware {
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
-        String[] choices = {"distance","time","gayFix","colorMove","eachMotor","rainbow","sampleTest"};
+        String[] choices = {"distance","time","gayFix","colorMove","eachMotor","rainbow","sampleTest","distanceMeasure"};
         int run = 0;
 
         while(!opModeIsActive()){
@@ -51,6 +52,7 @@ public class WhenItBreaks extends Hardware {
             case 4: eachMotor();
             case 5: rainbow();
             case 6: sampleTest();
+            case 7: distanceMeasure();
         }
 
     }
@@ -212,6 +214,25 @@ public class WhenItBreaks extends Hardware {
         blue = colorSensor.blue();
 
         return(red > yellowMin[0] && green > yellowMin[1] && blue > yellowMin[2]);
+    }
+
+    private void distanceMeasure(){
+        colorMove();
+        rb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lb.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        rf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        lf.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        colorMove();
+        telemetry.addData("lf",lf.getCurrentPosition());
+        telemetry.addData("lb",lb.getCurrentPosition());
+        telemetry.addData("rf",rf.getCurrentPosition());
+        telemetry.addData("rb",rb.getCurrentPosition());
+        telemetry.addData("-----","-----");
+        int average = (lf.getCurrentPosition()+lb.getCurrentPosition()+rf.getCurrentPosition()+rb.getCurrentPosition())/4;
+        telemetry.addData("average",average);
+        telemetry.addData("average / 4 feet",average/4.0);
+        telemetry.update();
+        sleep(500000000);
     }
 }
 

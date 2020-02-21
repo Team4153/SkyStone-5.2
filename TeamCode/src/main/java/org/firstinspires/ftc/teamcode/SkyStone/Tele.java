@@ -29,7 +29,7 @@ public class Tele extends OpMode
     private static final double rfA = .8;
     private static final double rbA = .8;
 
-
+    private boolean slow = false;
 
 
     /*
@@ -107,38 +107,36 @@ public class Tele extends OpMode
     public void loop() {
 
         double lfPower,lbPower,rfPower,rbPower;
-        double STRAFE_SPEED = 0.5;
+        //double STRAFE_SPEED = 0.5;
+        double STRAFE_SPEED = 1;
 
         //lfA = 0.991 - adjust;
         //lbA = 0.991 - adjust;
         //rfA = 1.0;
         //rbA = 1.0;//0.998;
+        if(gamepad1.a){
+            slow = true;
+        } else if(gamepad1.b){
+            slow = false;
+        }
 
-
-//newest update
-        if (gamepad1.dpad_left) {
+        if (gamepad1.left_bumper) {
             lfPower = STRAFE_SPEED;
             lbPower = -STRAFE_SPEED;
             rfPower = -STRAFE_SPEED;
             rbPower = STRAFE_SPEED;
-        } else if (gamepad1.dpad_right) {
+        } else if (gamepad1.right_bumper) {
             lfPower = -STRAFE_SPEED;
             lbPower = STRAFE_SPEED;
             rfPower = STRAFE_SPEED;
             rbPower = -STRAFE_SPEED;
         }
-        else if (gamepad1.right_trigger > 0.25) {
+        else if (slow) {
             lfPower = gamepad1.left_stick_y / 2;
             lbPower = gamepad1.left_stick_y / 2;
             rfPower = gamepad1.right_stick_y / 2;
             rbPower = gamepad1.right_stick_y / 2;
-            telemetry.addData("drive","slow 1");
-        } else if (gamepad1.left_trigger > 0.25) {
-            lfPower = gamepad1.left_stick_y / 5;
-            lbPower = gamepad1.left_stick_y / 5;
-            rfPower = gamepad1.right_stick_y / 5;
-            rbPower = gamepad1.right_stick_y / 5;
-            telemetry.addData("drive","slow 2");
+            telemetry.addData("drive","slow");
         }
         else {
             lfPower = gamepad1.left_stick_y;
@@ -166,17 +164,17 @@ public class Tele extends OpMode
             lIntake.setPower(0);
         }
 
-        if (gamepad2.left_bumper){          //platform up
+        if (gamepad1.dpad_up){          //platform up
             lPlatform.setPosition(0.9);
             rPlatform.setPosition(0.75);
             telemetry.addData("platform","up");
-        }
-
-        if (gamepad2.right_bumper) {        //platform down
+        } else if(gamepad1.dpad_down) {        //platform down
             lPlatform.setPosition(0.5);
             rPlatform.setPosition(1);
             telemetry.addData("platform","down");
         }
+
+        telemetry.update();
 
     }
 
