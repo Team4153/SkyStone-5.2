@@ -69,8 +69,8 @@ public class ColorSensorBlue extends Hardware {
         waitForStart();
         //encoderStrafe(3,RIGHT);
         encoderDrive(2.8,2.8,.8);
-        driveToStack2();
         encoderStrafe(3,RIGHT);
+        driveToStack2();
         int stoneNum = skyTest();
         switch (stoneNum){
             case 1: stone1(platformDivert, endPosition);
@@ -216,8 +216,6 @@ public class ColorSensorBlue extends Hardware {
     private void stone2(boolean platformDivert, boolean endPosition){
         telemetry.addData("stone",2);
         telemetry.update();
-        //encoderStrafe(1,RIGHT);
-        //encoderStrafe(0.2,LEFT);
         intake();
         turn(100,COUNTER_CLOCKWISE);
         encoderDrive(4.7,4.7,1);
