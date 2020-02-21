@@ -200,7 +200,7 @@ public class ColorSensorBlue extends Hardware {
         turn(110,CLOCKWISE);
         //encoderStrafe(.3,RIGHT);
         encoderDrive(1,1,1);
-        intake2();
+        intake2();//
         turn(120,COUNTER_CLOCKWISE);
         encoderDrive(7.8,7.8,1);
         if(platformDivert){
