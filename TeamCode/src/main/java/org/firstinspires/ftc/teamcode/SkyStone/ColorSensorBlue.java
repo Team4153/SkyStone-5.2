@@ -180,6 +180,8 @@ public class ColorSensorBlue extends Hardware {
     }
 
     private void stone1(boolean platformDivert, boolean endPosition){
+        telemetry.addData("stone",1);
+        telemetry.update();
         //turn(5,CLOCKWISE);
         encoderStrafe(0.4,LEFT);
         intake();
@@ -212,6 +214,8 @@ public class ColorSensorBlue extends Hardware {
         endPark(endPosition);
     }
     private void stone2(boolean platformDivert, boolean endPosition){
+        telemetry.addData("stone",2);
+        telemetry.update();
         //encoderStrafe(1,RIGHT);
         //encoderStrafe(0.2,LEFT);
         intake();
@@ -240,6 +244,8 @@ public class ColorSensorBlue extends Hardware {
         endPark(endPosition);
     }
     private void stone3(boolean platformDivert, boolean endPosition){
+        telemetry.addData("stone",3);
+        telemetry.update();
         //encoderStrafe(1,RIGHT);
         encoderStrafe(0.2,LEFT);
         intake();

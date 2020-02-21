@@ -68,7 +68,7 @@ public class IHateEverything extends Hardware {
         */
         waitForStart();
         //encoderStrafe(3,RIGHT);
-        encoderDrive(3,3,.8);
+        encoderDrive(2.8,2.8,.8);
         driveToStack2();
         //encoderStrafe(3,LEFT);
         int stoneNum = skyTest();
