@@ -2,17 +2,15 @@ package org.firstinspires.ftc.teamcode.SkyStone;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 
-@Autonomous(name="Color Sensor Auto")
+@Autonomous(name="Color Sensor Red")
 //@Disabled
-public class ColorSensorAuto extends Hardware {
+public class ColorSensorRed extends Hardware {
 
 
     @Override
     public void runOpMode() {
 
         init(hardwareMap);
-
-
 
         boolean endPosition = true;
         boolean platformDivert = true;
@@ -76,6 +74,7 @@ public class ColorSensorAuto extends Hardware {
             case 1: stone1(platformDivert, endPosition);
             case 2: stone2(platformDivert, endPosition);
         }
+        /*
         if(stoneNum == 1 ){
             intake();
             turn(115,CLOCKWISE);
@@ -138,43 +137,10 @@ public class ColorSensorAuto extends Hardware {
             }
 
         }
-
-
-
-
-        /*encoderDrive(10,10);
-        sleep(500);
-        outtake();
-        sleep(500);
-        encoderDrive(-10,-10);
-        sleep(500);
-        encoderDrive(-3,-3);
-        sleep(500);
-        turn(90,COUNTER_CLOCKWISE);
-        sleep(500);
-        intake();
-        sleep(500);
-        turn(90,CLOCKWISE);
-        sleep(500);
-        encoderDrive(13,13);
-        sleep(500);
-        outtake();*/
+        //*/
 
     }
-    /*
-        void driveToStack(){
-            setP(.3);
-            while (!(colorSensor.red() > 82 || colorSensor.green() > 49 || colorSensor.blue() > 28)){
-                idle();
-                telemetry.addData("red",colorSensor.red());
-                telemetry.addData("green",colorSensor.green());
-                telemetry.addData("blue",colorSensor.blue());
-                telemetry.update();
-            }
-            setP(0);
-        }
 
-     */
     private void driveToStack2(){
         setP(.5);
         while (!(colorSensor.red() > 82 || colorSensor.green() > 49 || colorSensor.blue() > 28)){
@@ -201,19 +167,12 @@ public class ColorSensorAuto extends Hardware {
     private int skyTest(){
         for(int i=1; i<=2;i++){
             if(!isYellow()){
-                //telemetry.addData("yellow",i);
-                //break;
                 return i;
-            } else if(i==2){
-                //telemetry.addData("yellow",3);
-                return 3;
             }
             else{
                 encoderStrafe(2,RIGHT);
             }
         }
-        telemetry.update();
-        //sleep(500000000);
         return 3;
     }
 
@@ -229,7 +188,9 @@ public class ColorSensorAuto extends Hardware {
             turn(90,CLOCKWISE);
         }
         encoderDrive(-7.8,-7.8,1);
+        encoderDrive(-.1);
         turn(120,COUNTER_CLOCKWISE);
+        encoderStrafe(.3,LEFT);
         intake2();
         turn(120,CLOCKWISE);
         encoderDrive(7.8,7.8,1);
@@ -241,11 +202,7 @@ public class ColorSensorAuto extends Hardware {
             turn(90,CLOCKWISE);
         }
         encoderDrive(-2,-2,1);
-        if(endPosition){ //bridge
-            encoderStrafe(1.2,LEFT);
-        } else{
-            encoderStrafe(3,RIGHT);
-        }
+        endPark(endPosition);
     }
     private void stone2(boolean platformDivert, boolean endPosition){
         //encoderStrafe(1,RIGHT);
@@ -273,6 +230,9 @@ public class ColorSensorAuto extends Hardware {
             turn(90,CLOCKWISE);
         }
         encoderDrive(-2,-2,1);
+        endPark(endPosition);
+    }
+    private void endPark(boolean endPosition){
         if(endPosition){ //bridge
             encoderStrafe(2.5,LEFT);
         } else{
