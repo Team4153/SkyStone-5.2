@@ -69,7 +69,7 @@ public class ColorSensorBlue extends Hardware {
         waitForStart();
         //encoderStrafe(3,RIGHT);
         encoderDrive(2.8,2.8,.8);
-        encoderStrafe(3,RIGHT);
+        encoderStrafe(2.8,RIGHT);
         driveToStack2();
         int stoneNum = skyTest();
         switch (stoneNum){
@@ -217,19 +217,24 @@ public class ColorSensorBlue extends Hardware {
         telemetry.addData("stone",2);
         telemetry.update();
         intake();
-        turn(100,COUNTER_CLOCKWISE);
-        encoderDrive(4.7,4.7,1);
+        turn(90,COUNTER_CLOCKWISE);
+        encoderDrive(5.2,5.2,1);
         if(platformDivert){
             turn(90,CLOCKWISE);
         }
         outtake();
+        turn(15,CLOCKWISE);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
         }
-        encoderDrive(-7.1,-7.1,1);
-        turn(110,COUNTER_CLOCKWISE);
+        //encoderDrive(-7.1,-7.1,1);
+        encoderDrive(-4.6,-4.6,1);
+        turn(15,COUNTER_CLOCKWISE);
+        encoderDrive(-4.6,-4.6,1);
+        turn(90,CLOCKWISE);
+        encoderDrive(.2,.2,1);
         intake2();
-        turn(100,COUNTER_CLOCKWISE);
+        turn(90,COUNTER_CLOCKWISE);
         encoderDrive(8.1,8.1,1);
         if(platformDivert){
             turn(90,CLOCKWISE);
@@ -278,5 +283,6 @@ public class ColorSensorBlue extends Hardware {
             encoderStrafe(3,LEFT);
         }
     }
+
 }
 
