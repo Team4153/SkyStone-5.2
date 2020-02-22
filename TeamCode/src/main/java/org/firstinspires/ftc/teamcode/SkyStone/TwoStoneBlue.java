@@ -26,6 +26,7 @@ public class TwoStoneBlue extends Hardware {
             } else if(gamepad1.y){
                 platformDivert = false;
             }
+            telemetry.addData("setup","left wheel on line");
             telemetry.addData("Platform Divert",platformDivert);
             telemetry.addData("End Position", endPosition? "bridge" : "wall");
             telemetry.update();
@@ -37,7 +38,7 @@ public class TwoStoneBlue extends Hardware {
         encoderDrive(3,3,.8);
         driveToStack2();
         intake();
-        turn(90,COUNTER_CLOCKWISE);
+        turn(85,COUNTER_CLOCKWISE);
         encoderDrive(5, 5,1);
         if(platformDivert){
             turn(90,CLOCKWISE);

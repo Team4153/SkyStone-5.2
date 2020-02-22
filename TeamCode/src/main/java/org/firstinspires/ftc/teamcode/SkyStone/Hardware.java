@@ -513,12 +513,12 @@ public abstract class Hardware extends LinearOpMode
         lIntake.setPower(-0.7);
         rIntake.setPower(-0.7);
         //encoderDrive(1.3,1.3);
-        encoderDrive(2.3,2.3);
+        encoderDrive(2.4);
         //lIntake.setPower(0.7);
         //rIntake.setPower(0.7);
         lIntake.setPower(0);
         rIntake.setPower(0);
-        encoderDrive(-2.4,-2.4);
+        encoderDrive(-2.5);
     }
     void intake3(){
         lIntake.setPower(-0.7);

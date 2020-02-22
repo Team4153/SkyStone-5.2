@@ -44,11 +44,11 @@ public class TwoStoneRed extends Hardware {
         if(platformDivert){
             turn(90,CLOCKWISE);
         }
-        encoderDrive(-6.9,-6.9,1);
+        encoderDrive(-7,-7,1);
         turn(90,COUNTER_CLOCKWISE);
         intake2();
         turn(85,CLOCKWISE);
-        encoderDrive(6,6,1);
+        encoderDrive(6.1,6.1,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
         }
@@ -58,9 +58,9 @@ public class TwoStoneRed extends Hardware {
         }
         encoderDrive(-2,-2,1);
         if(endPosition){ //bridge
-            encoderStrafe(1.2,LEFT);
+            encoderStrafe(3,LEFT);
         } else{
-            encoderStrafe(3,RIGHT);
+            encoderStrafe(5,RIGHT);
         }
         /*encoderDrive(10,10);
         sleep(500);

@@ -229,7 +229,7 @@ public class ColorSensorRed extends Hardware {
             turn(90,CLOCKWISE);
         }
         encoderDrive(-7.3,-7.3,1);
-        turn(115,COUNTER_CLOCKWISE);
+        turn(120,COUNTER_CLOCKWISE);
         intake2();
         turn(100,CLOCKWISE);
         encoderDrive(8.1,8.1,1);
