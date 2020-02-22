@@ -13,7 +13,7 @@ public class ColorSensorRed extends Hardware {
         init(hardwareMap);
 
         boolean endPosition = true;
-        boolean platformDivert = true;
+        boolean platformDivert = false;
 
         while (!opModeIsActive()){
             if(gamepad1.a){
@@ -178,7 +178,9 @@ public class ColorSensorRed extends Hardware {
     }
 
     private void stone1(boolean platformDivert, boolean endPosition){
-        encoderStrafe(0.3,LEFT);
+        telemetry.addData("stone",1);
+        telemetry.update();
+        encoderStrafe(0.5,LEFT);
         intake();
         turn(120,CLOCKWISE);
         encoderDrive(5.5,5.5,1);
@@ -213,6 +215,8 @@ public class ColorSensorRed extends Hardware {
     }
     private void stone2(boolean platformDivert, boolean endPosition){
         //encoderStrafe(1,RIGHT);
+        telemetry.addData("stone",2);
+        telemetry.update();
         encoderStrafe(0.2,LEFT);
         intake();
         turn(115,CLOCKWISE);
@@ -245,6 +249,8 @@ public class ColorSensorRed extends Hardware {
         }
     }
     private void stone3(boolean platformDivert, boolean endPosition){
+        telemetry.addData("stone",3);
+        telemetry.update();
         encoderDrive(-0.5,-0.5,1);
         encoderStrafe(0.3,RIGHT);
         encoderStrafe(0.3,LEFT);

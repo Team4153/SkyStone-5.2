@@ -44,14 +44,14 @@ public class TwoStoneBlue extends Hardware {
         }
         outtake();
         if(platformDivert){
-            turn(92,COUNTER_CLOCKWISE);
+            turn(80,COUNTER_CLOCKWISE);
         }
         turn(8,CLOCKWISE);
         encoderDrive(-6.6,-6.6,1);
         turn(90,CLOCKWISE);
         intake2();
         turn(90,COUNTER_CLOCKWISE);
-        encoderDrive(6.1,6.1,1);
+        encoderDrive(6.8,6.8,1);
         if(platformDivert){
             turn(90,CLOCKWISE);
         }

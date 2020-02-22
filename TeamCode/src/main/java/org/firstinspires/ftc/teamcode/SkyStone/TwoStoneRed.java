@@ -32,10 +32,10 @@ public class TwoStoneRed extends Hardware {
 
         }
         waitForStart();
-        encoderDrive(3,3,.8);
+        encoderDrive(3,3,1);
         driveToStack2();
-        intake();
-        turn(105,CLOCKWISE);
+        intake4();
+        turn(130,CLOCKWISE);
         encoderDrive(4.5, 4.5,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);
@@ -44,10 +44,10 @@ public class TwoStoneRed extends Hardware {
         if(platformDivert){
             turn(90,CLOCKWISE);
         }
-        encoderDrive(-6.6,-6.6,1);
+        encoderDrive(-6.9,-6.9,1);
         turn(90,COUNTER_CLOCKWISE);
         intake2();
-        turn(90,CLOCKWISE);
+        turn(85,CLOCKWISE);
         encoderDrive(6,6,1);
         if(platformDivert){
             turn(90,COUNTER_CLOCKWISE);

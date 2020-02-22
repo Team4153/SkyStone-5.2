@@ -143,6 +143,7 @@ public class Tele extends OpMode
             lbPower = gamepad1.left_stick_y;
             rfPower = gamepad1.right_stick_y;
             rbPower = gamepad1.right_stick_y;
+            telemetry.addData("drive","normal");
         }
 
         lf.setPower(lfPower*lfA);
